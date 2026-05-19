@@ -1,5 +1,6 @@
 @props([
     'href' => '#',
+    'modalid' => ''
 ])
 
 <div {{
@@ -15,10 +16,10 @@
         {{ $slot }}
     </div>
 
-    <a
-        href="{{ $href }}"
+    <button
+        onclick="openModal('{{ $modalid }}')"
         class="self-center mt-auto rounded-full bg-white px-4 py-3 text-xl text-zinc-900 transition hover:text-white group-hover:bg-orange-500"
     >
         {{ $button }}
-    </a>
+    </button>
 </div>

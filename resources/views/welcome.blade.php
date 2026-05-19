@@ -16,7 +16,7 @@
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@300;400;500;600;700&display=swap');
-        
+
         html {
             scroll-behavior: smooth;
         }
@@ -451,7 +451,7 @@
 
         <div class="flex gap-4 flex-col md:flex-row">
 
-            <x-welcome.card-apply href="/apply-student">
+            <x-welcome.card-apply modalid="modal-apply-student">
                 <x-slot:title>
                     Students
                 </x-slot:title>
@@ -563,6 +563,121 @@
     </footer>
 
 
+
+    <x-modal id="modal-apply-student" title="Apply as student">
+        <form class="flex flex-wrap gap-4" id="form-apply-student">
+            <!-- 🧩 Section 1 -->
+            <h2 class="text-lg font-semibold w-full">Background & Motivation</h2>
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">What is your current academic program and institution?</label>
+                <input type="text" name="program" class="border rounded-md px-3 py-2 text-slate-800" />
+            </div>
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Why are you interested in combining gastronomy and artificial intelligence?</label>
+                <textarea name="motivation" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"></textarea>
+            </div>
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Which of the following best describes your goal?</label>
+                <select name="goal" class="border rounded-md px-3 py-2 text-slate-800">
+                    <option value="">Select an option...</option>
+                    <option>Work in industry (AI/tech)</option>
+                    <option>Academic research</option>
+                    <option>Entrepreneurship</option>
+                    <option>Culinary innovation</option>
+                </select>
+            </div>
+            <!-- 🧠 Section 2 -->
+            <h2 class="text-lg font-semibold mt-4 w-full">Technical Foundations</h2>
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Rate your level in programming</label>
+
+                <select name="programming_level" class="border rounded-md px-3 py-2 text-slate-800">
+                    <option value="1">1 — No experience</option>
+                    <option value="2">2 — Basic understanding (tutorials)</option>
+                    <option value="3">3 — Can build simple projects</option>
+                    <option value="4">4 — Comfortable building real apps</option>
+                    <option value="5">5 — Advanced / production experience</option>
+                </select>
+            </div>
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Have you worked with any of the following?</label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="tech[]" value="none" />
+                    None
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="tech[]" value="cv" />
+                    Computer Vision
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="tech[]" value="ml" />
+                    Machine Learning
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="tech[]" value="data" />
+                    Data Analysis
+                </label>
+            </div>
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Describe a project where you solved a problem using data or technology</label>
+                <textarea name="project" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"></textarea>
+            </div>
+            <!-- 🍳 Section 3 -->
+            <h2 class="text-lg font-semibold mt-4 w-full">Culinary + Applied Thinking</h2>
+
+            <div class="flex flex-col  gap-2 w-full">
+                <label class="text-sm">How would you use computer vision to improve a professional kitchen?</label>
+                <textarea name="cv_kitchen" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"></textarea>
+            </div>
+            <div class="flex flex-col  gap-2 w-full">
+                <label class="text-sm">Identify one inefficiency in a kitchen and propose a technological solution</label>
+                <textarea name="efficiency" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"></textarea>
+            </div>
+            <!-- 🚀 Section 4 -->
+            <h2 class="text-lg font-semibold mt-4 w-full">Commitment & Fit</h2>
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">How many hours per week can you dedicate?</label>
+                <select name="hours" class="border rounded-md px-3 py-2 text-slate-800 text-slate-800">
+                    <option>5–10</option>
+                    <option>10–20</option>
+                    <option>20–40</option>
+                    <option>40+</option>
+                </select>
+            </div>
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Are you interested in</label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="interests[]" value="research" />
+                    Research publication
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="interests[]" value="nvidia" />
+                    NVIDIA certifications
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="interests[]" value="deployment" />
+                    Real-world deployment
+                </label>
+            </div>
+            <div class="flex flex-col  gap-2 w-full">
+                <label class="text-sm">Why should we select you over other candidates?</label>
+                <textarea name="why_you" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"></textarea>
+            </div>
+        </form>
+
+
+        <x-slot name="footer">
+            <div class="flex gap-4 justify-end">
+                <x-button color="slate" class="close-modal">
+                    Back
+                </x-button>
+                <x-button type="submit" form="form-apply-student">
+                    Submit
+                </x-button>
+            </div>
+        </x-slot>
+    </x-modal>
 
 
 
