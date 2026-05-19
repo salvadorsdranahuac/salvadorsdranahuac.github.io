@@ -1,0 +1,95 @@
+{
+    "What we do": "Qué hacemos",
+    "Research areas": "Áreas de investigación",
+    "Projects": "Proyectos",
+    "Opportunities": "Oportunidades",
+
+    "English": "English",
+    "Español": "Español",
+
+    "Engineering the future of culinary training and performance with computer vision": "Diseñando el futuro de la formación y el desempeño culinario con visión por computadora",
+    "Join the lab": "Únete al laboratorio",
+    "Explore research": "Explorar investigación",
+
+    "Transforming Precision.": "Transformando la precisión.",
+    "We develop state-of-the-art computer vision systems to augment human capability in professional kitchens and educational institutions.": "Desarrollamos sistemas de visión por computadora de última generación para potenciar las capacidades humanas en cocinas profesionales e instituciones educativas.",
+
+    "Real world applications across the entire gastronomic process": "Aplicaciones reales a lo largo de todo el proceso gastronómico",
+    "Tech trends & Applications": "Tendencias tecnológicas y aplicaciones",
+    "Prep (Mise en place)": "Preparación (Mise en place)",
+    "Line cooking": "Cocina en línea",
+    "Plating & QA": "Emplatado y control de calidad",
+    "Ethics & privacy": "Ética y privacidad",
+    "Privacy via Federated Learning": "Privacidad mediante aprendizaje federado",
+    "Collaborative network training without sharing proprietary restaurant data, techniques, or secret recipes.": "Entrenamiento colaborativo de redes sin compartir datos propietarios de restaurantes, técnicas o recetas secretas.",
+    "Strict protocols for IP": "Protocolos estrictos para propiedad intelectual",
+    "Networked collaborative models with strict protocols to protect intellectual property in high-end gastronomy.": "Modelos colaborativos en red con protocolos estrictos para proteger la propiedad intelectual en la alta gastronomía.",
+    "Unified Generative Models": "Modelos generativos unificados",
+    "Evolution towards multimodal architectures bridging explicit culinary rules with generative AI for operational robustness.": "Evolución hacia arquitecturas multimodales que integran reglas culinarias explícitas con IA generativa para lograr robustez operativa.",
+
+    "Applied Research": "Investigación aplicada",
+    "Bridging the gap between empirical gastronomy and computational perception to scale world-class culinary education globally.": "Cerrando la brecha entre la gastronomía empírica y la percepción computacional para escalar la educación culinaria de clase mundial a nivel global.",
+    "Input": "Entrada",
+    "Model": "Modelo",
+    "Insight": "Análisis",
+    "Action": "Acción",
+
+    "AI-Powered Uniform Compliance System": "Sistema de cumplimiento de uniformes impulsado por IA",
+    "Digitizes subjective culinary grading into objective quantitative metrics by mapping student plating against baseline master chef executions.": "Digitaliza evaluaciones culinarias subjetivas en métricas cuantitativas objetivas al comparar el emplatado estudiantil con ejecuciones base de chefs maestros.",
+    "How It Works": "Cómo funciona",
+    "Data: Edge-device video feeds via a QR deployment application.": "Datos: transmisiones de video desde dispositivos edge mediante una aplicación de despliegue con QR.",
+    "Model: Object detection architecture following CRISP-DM methodology.": "Modelo: arquitectura de detección de objetos siguiendo la metodología CRISP-DM.",
+    "Output: Real-time alerts identifying hat, jacket, apron, and pants.": "Salida: alertas en tiempo real identificando gorro, chaqueta, mandil y pantalón.",
+    "Value Generated": "Valor generado",
+    "Drastic reduction of manual oversight and inspection time.": "Reducción drástica del tiempo de supervisión e inspección manual.",
+    "Unbiased operational standardization in hygiene safety.": "Estandarización operativa imparcial en seguridad e higiene.",
+    "Scientific Evidence: Validated in field tests achieving ~85–86% precision across diverse culinary uniform items (Castillo-Ortiz et al., 2024a).": "Evidencia científica: validado en pruebas de campo alcanzando ~85–86% de precisión en diversos elementos de uniformes culinarios (Castillo-Ortiz et al., 2024a).",
+
+    "Culinary Skill Transfer Intelligence Engine": "Motor inteligente de transferencia de habilidades culinarias",
+    "Data: High-resolution standardized plating imagery.": "Datos: imágenes estandarizadas de emplatado en alta resolución.",
+    "Model: VGG-16 Deep Convolutional Neural Networks (CNNs).": "Modelo: redes neuronales convolucionales profundas VGG-16 (CNNs).",
+    "Output: Euclidean distance, cosine similarity, and perceptual loss scores.": "Salida: distancia euclidiana, similitud coseno y métricas de pérdida perceptual.",
+    "Objective, quantifiable evaluation of culinary performance.": "Evaluación objetiva y cuantificable del desempeño culinario.",
+    "Global scalability for culinary education.": "Escalabilidad global para la educación culinaria.",
+
+    "Smart Kitchen Vision Systems": "Sistemas de visión para cocinas inteligentes",
+    "An integrated spatial computing network that monitors, anticipates, and orchestrates the professional kitchen floor.": "Una red integrada de computación espacial que monitorea, anticipa y orquesta el entorno de cocinas profesionales.",
+    "Data: Multimodal inputs from IoT edge nodes and optical sensors.": "Datos: entradas multimodales provenientes de nodos IoT y sensores ópticos.",
+    "Model: Fused object detection and semantic segmentation pipelines.": "Modelo: pipelines fusionados de detección de objetos y segmentación semántica.",
+    "Output: Centralized dashboard for kitchen automation & safety.": "Salida: panel centralizado para automatización y seguridad en cocina.",
+    "Frictionless automation of standard back-of-house processes.": "Automatización fluida de procesos estándar de back-of-house.",
+    "Industrial scalability from educational labs to enterprise hospitality.": "Escalabilidad industrial desde laboratorios educativos hasta hospitalidad empresarial.",
+    "Scientific Evidence: Integrates the foundations of uniform compliance (Castillo-Ortiz et al., 2024a) and quality evaluation (Castillo-Ortiz et al., 2024b) into a unified ambient operating system.": "Evidencia científica: integra los fundamentos del cumplimiento de uniformes (Castillo-Ortiz et al., 2024a) y la evaluación de calidad (Castillo-Ortiz et al., 2024b) en un sistema operativo ambiental unificado.",
+
+    "Browse all projects": "Explorar todos los proyectos",
+
+    "Join the frontier": "Únete a la frontera",
+    "We are actively seeking brilliant minds to help build the future of gastronomy.": "Estamos buscando activamente mentes brillantes para construir el futuro de la gastronomía.",
+    "Students": "Estudiantes",
+    "Undergraduate and postgraduate positions for those passionate about integrating ML with culinary arts.": "Posiciones de licenciatura y posgrado para quienes sienten pasión por integrar ML con las artes culinarias.",
+    "NVIDIA certifications & training": "Certificaciones y entrenamiento NVIDIA",
+    "Real-world AI deployment pipeline": "Pipeline de despliegue real de IA",
+    "Thesis supervision": "Asesoría de tesis",
+    "Apply as student": "Aplicar como estudiante",
+
+    "Researchers": "Investigadores",
+    "Post-docs and PhD candidates driving novel computer vision architectures in unconstrained environments.": "Postdoctorantes y candidatos a doctorado desarrollando nuevas arquitecturas de visión por computadora en entornos no controlados.",
+    "Compute cluster access (A100s)": "Acceso a clúster de cómputo (A100s)",
+    "Conference publications (CVPR, CHI)": "Publicaciones en conferencias (CVPR, CHI)",
+    "Prototyping budget": "Presupuesto para prototipos",
+    "View open positions": "Ver posiciones abiertas",
+
+    "Industry Partners": "Socios industriales",
+    "Culinary institutions, ghost kitchens, and tech giants looking to deploy our systems or collaborate.": "Instituciones culinarias, ghost kitchens y empresas tecnológicas interesadas en desplegar nuestros sistemas o colaborar.",
+    "Pilot program integration": "Integración de programas piloto",
+    "Custom model tuning": "Ajuste personalizado de modelos",
+    "Licensing opportunities": "Oportunidades de licenciamiento",
+    "Partner with us": "Asóciate con nosotros",
+
+    "Explore": "Explorar",
+    "Research": "Investigación",
+
+    "Engineering the future of culinary training with computer vision.": "Diseñando el futuro de la formación culinaria con visión por computadora.",
+
+    "All rights reserved.": "Todos los derechos reservados."
+}
