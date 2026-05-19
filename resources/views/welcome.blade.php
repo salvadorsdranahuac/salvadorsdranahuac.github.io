@@ -102,13 +102,27 @@
             </a>
 
             <div class="flex items-center gap-3 ml-4">
-                <x-button color="gray" shade="200" outline>
-                    Login
-                </x-button>
+                {{-- usage --}}
+                <x-dropdown align="right">
+                    <x-slot name="trigger">
+                        <x-button color="gray" shade="200" outline class="flex gap-2 items-center py-1 px-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-[1em]" fill="currentColor"
+                                class="bi bi-globe" viewBox="0 0 16 16">
+                                <path
+                                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m7.5-6.923c-.67.204-1.335.82-1.887 1.855A8 8 0 0 0 5.145 4H7.5zM4.09 4a9.3 9.3 0 0 1 .64-1.539 7 7 0 0 1 .597-.933A7.03 7.03 0 0 0 2.255 4zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a7 7 0 0 0-.656 2.5zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5zM8.5 5v2.5h2.99a12.5 12.5 0 0 0-.337-2.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5zM5.145 12q.208.58.468 1.068c.552 1.035 1.218 1.65 1.887 1.855V12zm.182 2.472a7 7 0 0 1-.597-.933A9.3 9.3 0 0 1 4.09 12H2.255a7 7 0 0 0 3.072 2.472M3.82 11a13.7 13.7 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5zm6.853 3.472A7 7 0 0 0 13.745 12H11.91a9.3 9.3 0 0 1-.64 1.539 7 7 0 0 1-.597.933M8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855q.26-.487.468-1.068zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.7 13.7 0 0 1-.312 2.5m2.802-3.5a7 7 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7 7 0 0 0-3.072-2.472c.218.284.418.598.597.933M10.855 4a8 8 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4z" />
+                            </svg>
+                            EN
+                        </x-button>
+                    </x-slot>
+                    <a href="#" class="block rounded-xl px-4 py-2 text-sm hover:bg-zinc-700">
+                        🇺🇸 English
+                    </a>
 
-                <x-button>
-                    Sign up
-                </x-button>
+                    <a href="#" class="block rounded-xl px-4 py-2 text-sm hover:bg-zinc-700">
+                        🇲🇽 Español
+                    </a>
+                </x-dropdown>
+
             </div>
         </div>
 
@@ -469,7 +483,7 @@
                     Apply as student
                 </x-slot:button>
             </x-welcome.card-apply>
-            <x-welcome.card-apply href="/positions">
+            <x-welcome.card-apply modalid="modal-apply-researcher">
                 <x-slot:title>
                     Researchers
                 </x-slot:title>
@@ -488,7 +502,7 @@
                 </x-slot:button>
             </x-welcome.card-apply>
 
-            <x-welcome.card-apply href="/partners">
+            <x-welcome.card-apply modalid="modal-apply-industry">
                 <x-slot:title>
                     Industry Partners
                 </x-slot:title>
@@ -567,18 +581,24 @@
     <x-modal id="modal-apply-student" title="Apply as student">
         <form class="flex flex-wrap gap-4" id="form-apply-student">
             <!-- 🧩 Section 1 -->
-            <h2 class="text-lg font-semibold w-full">Background & Motivation</h2>
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Background & Motivation
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
             <div class="flex flex-col gap-2 w-full">
                 <label class="text-sm">What is your current academic program and institution?</label>
-                <input type="text" name="program" class="border rounded-md px-3 py-2 text-slate-800" />
+                <input type="text" name="program" class="border rounded-md px-3 py-2 text-slate-800" required />
             </div>
             <div class="flex flex-col gap-2 w-full">
-                <label class="text-sm">Why are you interested in combining gastronomy and artificial intelligence?</label>
-                <textarea name="motivation" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"></textarea>
+                <label class="text-sm">Why are you interested in combining gastronomy and artificial
+                    intelligence?</label>
+                <textarea name="motivation" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
             </div>
             <div class="flex flex-col gap-2 w-full">
                 <label class="text-sm">Which of the following best describes your goal?</label>
-                <select name="goal" class="border rounded-md px-3 py-2 text-slate-800">
+                <select name="goal" class="border rounded-md px-3 py-2 text-slate-800" required>
                     <option value="">Select an option...</option>
                     <option>Work in industry (AI/tech)</option>
                     <option>Academic research</option>
@@ -587,11 +607,15 @@
                 </select>
             </div>
             <!-- 🧠 Section 2 -->
-            <h2 class="text-lg font-semibold mt-4 w-full">Technical Foundations</h2>
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Technical Foundations
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
             <div class="flex flex-col gap-2 w-full">
                 <label class="text-sm">Rate your level in programming</label>
 
-                <select name="programming_level" class="border rounded-md px-3 py-2 text-slate-800">
+                <select name="programming_level" class="border rounded-md px-3 py-2 text-slate-800" required>
                     <option value="1">1 — No experience</option>
                     <option value="2">2 — Basic understanding (tutorials)</option>
                     <option value="3">3 — Can build simple projects</option>
@@ -620,24 +644,32 @@
             </div>
             <div class="flex flex-col gap-2 w-full">
                 <label class="text-sm">Describe a project where you solved a problem using data or technology</label>
-                <textarea name="project" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"></textarea>
+                <textarea name="project" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
             </div>
             <!-- 🍳 Section 3 -->
             <h2 class="text-lg font-semibold mt-4 w-full">Culinary + Applied Thinking</h2>
 
             <div class="flex flex-col  gap-2 w-full">
                 <label class="text-sm">How would you use computer vision to improve a professional kitchen?</label>
-                <textarea name="cv_kitchen" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"></textarea>
+                <textarea name="cv_kitchen" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
             </div>
             <div class="flex flex-col  gap-2 w-full">
-                <label class="text-sm">Identify one inefficiency in a kitchen and propose a technological solution</label>
-                <textarea name="efficiency" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"></textarea>
+                <label class="text-sm">Identify one inefficiency in a kitchen and propose a technological
+                    solution</label>
+                <textarea name="efficiency" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
             </div>
             <!-- 🚀 Section 4 -->
-            <h2 class="text-lg font-semibold mt-4 w-full">Commitment & Fit</h2>
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Commitment & Fit
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
             <div class="flex flex-col gap-2 w-full">
                 <label class="text-sm">How many hours per week can you dedicate?</label>
-                <select name="hours" class="border rounded-md px-3 py-2 text-slate-800 text-slate-800">
+                <select name="hours" class="border rounded-md px-3 py-2 text-slate-800 text-slate-800" required>
+                    <option value="">Select an option...</option>
                     <option>5–10</option>
                     <option>10–20</option>
                     <option>20–40</option>
@@ -662,7 +694,8 @@
             </div>
             <div class="flex flex-col  gap-2 w-full">
                 <label class="text-sm">Why should we select you over other candidates?</label>
-                <textarea name="why_you" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"></textarea>
+                <textarea name="why_you" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
             </div>
         </form>
 
@@ -680,6 +713,439 @@
     </x-modal>
 
 
+
+    <x-modal id="modal-apply-researcher" title="Apply as researcher">
+        <form class="flex flex-wrap gap-4" id="form-apply-researcher">
+
+            <!-- 🧩 Section 1: Academic Profile -->
+            <h2 class="text-lg font-semibold w-full flex items-center gap-3">
+                Academic Profile <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Current affiliation and highest degree</label>
+                <input type="text" name="affiliation_degree" class="border rounded-md px-3 py-2 text-slate-800"
+                    required />
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">List your top 3 publications</label>
+                <textarea name="publications" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Have you published in indexed journals or conferences?</label>
+
+                <div class="flex flex-col gap-2">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="indexed_publications" value="q1" required />
+                        Q1 Journals
+                    </label>
+
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="indexed_publications" value="tier1" />
+                        Tier-1 conferences (CVPR, CHI, NeurIPS)
+                    </label>
+
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="indexed_publications" value="regional" />
+                        Regional journals
+                    </label>
+
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="indexed_publications" value="none" />
+                        No publications
+                    </label>
+                </div>
+            </div>
+
+            <!-- 🧠 Section 2: Technical Depth -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">Technical Depth<div
+                    class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Describe your experience with computer vision architectures</label>
+                <textarea name="cv_experience" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Which frameworks have you used?</label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="frameworks[]" value="pytorch" />
+                    PyTorch
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="frameworks[]" value="tensorflow" />
+                    TensorFlow
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="frameworks[]" value="opencv" />
+                    OpenCV
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="frameworks[]" value="custom" />
+                    Custom pipelines
+                </label>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Explain how you would design a model for real-time kitchen monitoring</label>
+                <textarea name="kitchen_model_design" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <!-- 🔬 Section 3: Research Thinking -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Research Thinking
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">What is a key research gap in computer vision for kitchens?</label>
+                <textarea name="research_gap" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">How would you design a dataset for kitchen environments?</label>
+                <textarea name="dataset_design" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Discuss trade-offs between accuracy and latency in real-time systems</label>
+                <textarea name="tradeoffs" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <!-- ⚙️ Section 4: Applied Deployment -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Applied Deployment
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Describe a project where you deployed a model in a real-world environment</label>
+                <textarea name="deployment_project" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Experience with IoT or sensor fusion?</label>
+                <div class="flex gap-2 w-full">
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" name="iotsensor_experience[]" value="iot" />
+                        IoT
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" name="iotsensor_experience[]" value="sensorfusion" />
+                        Sensor fusion
+                    </label>
+                </div>
+                <textarea name="iotsensor_experience" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    placeholder="Explain..." required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">How would you integrate computer vision with kitchen hardware systems?</label>
+                <textarea name="cv_hardware_integration"
+                    class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800" required></textarea>
+            </div>
+
+            <!-- 🧭 Section 5: Vision & Alignment -->
+
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Vision & Alignment
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">What research line would you develop in this lab?</label>
+                <textarea name="research_line" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">How would you target a CVPR/CHI publication from your work?</label>
+                <textarea name="publication_strategy" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">What impact do you want your research to generate?</label>
+                <textarea name="impact" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <!-- 🔥 Section 6: Execution Capability -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Execution Capability
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Availability (full-time / part-time)</label>
+                <select name="availability" class="border rounded-md px-3 py-2 text-slate-800" required>
+                    <option value="">Select an option...</option>
+                    <option value="full-time">full-time</option>
+                    <option value="part-time">part-time</option>
+                </select>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Experience leading teams?</label>
+
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="team_leadership" value="yes" required />
+                    Yes
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="team_leadership" value="no" />
+                    No
+                </label>
+
+                <textarea name="team_leadership_explanation"
+                    class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800" placeholder="explain..."
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Describe your ideal research project in this lab</label>
+                <textarea name="ideal_project" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+        </form>
+    </x-modal>
+
+
+    <x-modal id="modal-apply-industry" title="Apply as industry partner">
+        <form class="flex flex-wrap gap-4" id="form-apply-industry">
+
+            <!-- 🧩 Section 1: Company Profile -->
+            <h2 class="text-lg font-semibold w-full flex items-center gap-3">
+                Company Profile
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Company name, industry, and size</label>
+                <input type="text" name="company_profile" class="border rounded-md px-3 py-2 text-slate-800" required />
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Do you operate in food, hospitality, or tech?</label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="industries[]" value="food" />
+                    Food
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="industries[]" value="hospitality" />
+                    Hospitality
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="industries[]" value="tech" />
+                    Tech
+                </label>
+            </div>
+
+            <!-- 💼 Section 2: Use Case Identification -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Use Case Identification
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">What problem are you trying to solve?</label>
+                <textarea name="problem" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Which areas are relevant?</label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="areas[]" value="quality" />
+                    Food quality control
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="areas[]" value="hygiene" />
+                    Hygiene monitoring
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="areas[]" value="automation" />
+                    Automation
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="areas[]" value="customer_experience" />
+                    Customer experience
+                </label>
+            </div>
+
+            <!-- 📊 Section 3: Data & Infrastructure -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Data & Infrastructure
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Do you currently collect visual data?</label>
+
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="visual_data" value="yes" required />
+                    Yes
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="visual_data" value="no" />
+                    No
+                </label>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">What type?</label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="data_types[]" value="cameras" />
+                    Cameras
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="data_types[]" value="sensors" />
+                    Sensors
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="data_types[]" value="pos" />
+                    POS systems
+                </label>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Estimated volume of data</label>
+
+                <select name="data_volume" class="border rounded-md px-3 py-2 text-slate-800" required>
+                    <option value="">Select an option...</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+
+            <!-- ⚙️ Section 4: Technical Readiness -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Technical Readiness
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Do you have an internal tech team?</label>
+
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="tech_team" value="yes" required />
+                    Yes
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="tech_team" value="no" />
+                    No
+                </label>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Experience with AI?</label>
+
+                <select name="ai_experience" class="border rounded-md px-3 py-2 text-slate-800" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+
+            <!-- 🚀 Section 5: Business & ROI -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Business & ROI
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">What would success look like in 6 months?</label>
+                <textarea name="success_6months" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Budget range</label>
+
+                <select name="budget_range" class="border rounded-md px-3 py-2 text-slate-800">
+                    <option value="">Select an option...</option>
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                </select>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Interest in:</label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="interests[]" value="pilot" />
+                    Pilot program
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="interests[]" value="custom_model" />
+                    Custom AI model
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="interests[]" value="licensing" />
+                    Licensing
+                </label>
+            </div>
+
+            <!-- 🤝 Section 6: Strategic Fit -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Strategic Fit
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Why do you want to partner with this lab?</label>
+                <textarea name="partnership_reason" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Timeline expectations</label>
+
+                <select name="timeline_expectations" class="border rounded-md px-3 py-2 text-slate-800" required>
+                    <option value="">Select an option...</option>
+                    <option value="immediate">Immediate</option>
+                    <option value="1_3_months">1–3 months</option>
+                    <option value="3_6_months">3–6 months</option>
+                    <option value="6plus_months">6+ months</option>
+                </select>
+            </div>
+
+        </form>
+    </x-modal>
 
 
     <script>
@@ -781,6 +1247,37 @@
 
 
 
+
+    </script>
+
+    <script>
+        document.addEventListener('click', e => {
+            const dropdowns = document.querySelectorAll('[data-dropdown]');
+
+            dropdowns.forEach(dropdown => {
+                const trigger = dropdown.querySelector('[data-dropdown-trigger]');
+                const menu = dropdown.querySelector('[data-dropdown-menu]');
+
+                if (trigger.contains(e.target)) {
+                    const isOpen = !menu.classList.contains('hidden');
+
+                    dropdowns.forEach(d => {
+                        d.querySelector('[data-dropdown-menu]')
+                            ?.classList.add('hidden');
+                    });
+
+                    if (!isOpen) {
+                        menu.classList.remove('hidden');
+                    }
+
+                    return;
+                }
+
+                if (!dropdown.contains(e.target)) {
+                    menu.classList.add('hidden');
+                }
+            });
+        });
     </script>
 </body>
 
