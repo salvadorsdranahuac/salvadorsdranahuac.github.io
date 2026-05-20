@@ -71,6 +71,71 @@
         #research .card-black img {
             filter: brightness(0) invert(1);
         }
+
+
+        .drawer {
+            --width: 18rem;
+            width: var(--width);
+            max-width: 100vw;
+            height: 100vh;
+            overflow-x: hidden;
+            background-color: var(--bg);
+            font-size: 1rem;
+
+            position: fixed;
+            top: 0;
+            z-index: 999;
+            transition: left 0.3s ease;
+            transition: right 0.3s ease;
+
+            display: flex;
+            flex-direction: column;
+
+
+            & .closebtn {
+                float: right;
+                font-family: 'roboto', sans-serif;
+                font-size: 2rem;
+                color: #6C757D;
+                padding: 0.25rem 1rem;
+            }
+
+            &.left {
+                left: calc(-1 * var(--width));
+
+                &.drawer-open {
+                    left: 0;
+                }
+            }
+
+            &.right {
+                right: calc(-1 * var(--width));
+
+                &.drawer-open {
+                    right: 0;
+                }
+            }
+        }
+
+
+        .drawer-wrapper::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.6));
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s;
+            z-index: 998;
+        }
+
+        .drawer-wrapper:has(.drawer-open)::before {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 
@@ -122,7 +187,8 @@
         </div>
 
         <button id="menuBtn"
-            class="flex items-center justify-center self-center rounded-lg p-2 dark:hover:bg-gray-700 hover:bg-gray-100 lg:hidden">
+            class="flex items-center justify-center self-center rounded-lg p-2 mr-3 dark:hover:bg-gray-700 hover:bg-gray-100 lg:hidden"
+            onclick="openDrawer('drawer-menu')">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-500" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -534,6 +600,48 @@
         </div>
     </footer>
 
+
+    <x-drawer id="drawer-menu" style="--width:45rem;">
+        <div class="flex flex-col gap-2">
+            <a href="#about" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700" onclick="closeDrawer()">
+                {{ __('What we do') }}
+            </a>
+
+            <a href="#research" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700" onclick="closeDrawer()">
+                {{ __('Research areas') }}
+            </a>
+
+            <a href="#projects" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700" onclick="closeDrawer()">
+                {{ __('Projects') }}
+            </a>
+
+            <a href="#opportunities" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700" onclick="closeDrawer()">
+                {{ __('Opportunities') }}
+            </a>
+
+            <div class="ml-2 mt-2">
+                <x-dropdown align="left">
+                    <x-slot name="trigger">
+                        <x-button color="gray" shade="200" outline class="flex gap-2 items-center py-1 px-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-[1em]" fill="currentColor"
+                                class="bi bi-globe" viewBox="0 0 16 16">
+                                <path
+                                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m7.5-6.923c-.67.204-1.335.82-1.887 1.855A8 8 0 0 0 5.145 4H7.5zM4.09 4a9.3 9.3 0 0 1 .64-1.539 7 7 0 0 1 .597-.933A7.03 7.03 0 0 0 2.255 4zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a7 7 0 0 0-.656 2.5zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5zM8.5 5v2.5h2.99a12.5 12.5 0 0 0-.337-2.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5zM5.145 12q.208.58.468 1.068c.552 1.035 1.218 1.65 1.887 1.855V12zm.182 2.472a7 7 0 0 1-.597-.933A9.3 9.3 0 0 1 4.09 12H2.255a7 7 0 0 0 3.072 2.472M3.82 11a13.7 13.7 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5zm6.853 3.472A7 7 0 0 0 13.745 12H11.91a9.3 9.3 0 0 1-.64 1.539 7 7 0 0 1-.597.933M8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855q.26-.487.468-1.068zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.7 13.7 0 0 1-.312 2.5m2.802-3.5a7 7 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7 7 0 0 0-3.072-2.472c.218.284.418.598.597.933M10.855 4a8 8 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4z" />
+                            </svg>
+                            {{ strtoupper(app()->getLocale()) }}
+                        </x-button>
+                    </x-slot>
+                    <a href="{{ url('/lang/en') }}" class="block rounded-xl px-4 py-2 text-sm hover:bg-zinc-700">
+                        🇺🇸 {{ __('English') }}
+                    </a>
+
+                    <a href="{{ url('/lang/es') }}" class="block rounded-xl px-4 py-2 text-sm hover:bg-zinc-700">
+                        🇲🇽 {{ __('Español') }}
+                    </a>
+                </x-dropdown> 
+            </div>
+        </div>
+    </x-drawer>
 
 
     <x-modal id="modal-apply-student" :title="__('Apply as student')">
