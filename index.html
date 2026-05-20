@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="es" class="dark">
 
 <head>
     <meta charset="utf-8">
@@ -16,7 +16,7 @@
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@300;400;500;600;700&display=swap');
-        
+
         html {
             scroll-behavior: smooth;
         }
@@ -71,80 +71,163 @@
         #research .card-black img {
             filter: brightness(0) invert(1);
         }
+
+
+        .drawer {
+            --width: 18rem;
+            width: var(--width);
+            max-width: 100vw;
+            height: 100vh;
+            overflow-x: hidden;
+            background-color: var(--bg);
+            font-size: 1rem;
+
+            position: fixed;
+            top: 0;
+            z-index: 999;
+            transition: left 0.3s ease;
+            transition: right 0.3s ease;
+
+            display: flex;
+            flex-direction: column;
+
+
+            & .closebtn {
+                float: right;
+                font-family: 'roboto', sans-serif;
+                font-size: 2rem;
+                color: #6C757D;
+                padding: 0.25rem 1rem;
+            }
+
+            &.left {
+                left: calc(-1 * var(--width));
+
+                &.drawer-open {
+                    left: 0;
+                }
+            }
+
+            &.right {
+                right: calc(-1 * var(--width));
+
+                &.drawer-open {
+                    right: 0;
+                }
+            }
+        }
+
+
+        .drawer-wrapper::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.6));
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s;
+            z-index: 998;
+        }
+
+        .drawer-wrapper:has(.drawer-open)::before {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 
 <body class="bg-[var(--bg)] text-[var(--text)] min-h-screen">
     <nav
         class="sticky top-0 z-50 w-screen border-gray-200 bg-[var(--bg)] dark:border-gray-700 flex h-16 justify-between gap-4 pr-4 sm:pr-6 lg:pr-8">
-        <!-- Logo -->
-        <div class="h-16 flex items-center justify-center bg-orange-500 py-3 px-6 w-[172px]">
-            <img class="w-full h-full object-cover" src="img/logo_anahuacqueretaro.svg">
+        <div class="h-16 flex items-center justify-center bg-orange-500 py-3 px-6">
+            <img class="w-full h-full object-cover" src="http://127.0.0.1:8000/img/logo_anahuacqueretaro.svg">
         </div>
 
-
-        <!-- Links -->
-        <div class="hidden ml-auto lg:flex  text-gray-700 dark:text-gray-200 text-md font-medium">
+        <div class="hidden ml-auto lg:flex text-gray-700 dark:text-gray-200 text-md font-medium">
             <a href="#about" class="flex items-center p-3 transition hover:text-orange-500">
-                What we do
+                Qué hacemos
             </a>
 
             <a href="#research" class="flex items-center p-3 transition hover:text-orange-500">
-                Research areas
+                Áreas de investigación
             </a>
 
             <a href="#projects" class="flex items-center p-3 transition hover:text-orange-500">
-                Projects
+                Proyectos
             </a>
 
             <a href="#opportunities" class="flex items-center p-3 transition hover:text-orange-500">
-                Opportunities
+                Oportunidades
             </a>
 
             <div class="flex items-center gap-3 ml-4">
-                <button class="rounded-xl px-4 py-2 font-medium transition hover:bg-gray-100 border border-gray-200 text-gray-200 hover:text-gray-900">
-    Login
+                <div
+    x-data="{}"
+    class="relative inline-block"
+    data-dropdown
+    id="dropdown-6a0de51ce1d57"
+>
+    
+    <div data-dropdown-trigger>
+        <button class="rounded-xl font-medium transition hover:bg-gray-100 border border-gray-200 text-gray-200 hover:text-gray-900 flex gap-2 items-center py-1 px-3">
+    <svg xmlns="http://www.w3.org/2000/svg" class="size-[1em]" fill="currentColor"
+                                class="bi bi-globe" viewBox="0 0 16 16">
+                                <path
+                                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m7.5-6.923c-.67.204-1.335.82-1.887 1.855A8 8 0 0 0 5.145 4H7.5zM4.09 4a9.3 9.3 0 0 1 .64-1.539 7 7 0 0 1 .597-.933A7.03 7.03 0 0 0 2.255 4zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a7 7 0 0 0-.656 2.5zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5zM8.5 5v2.5h2.99a12.5 12.5 0 0 0-.337-2.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5zM5.145 12q.208.58.468 1.068c.552 1.035 1.218 1.65 1.887 1.855V12zm.182 2.472a7 7 0 0 1-.597-.933A9.3 9.3 0 0 1 4.09 12H2.255a7 7 0 0 0 3.072 2.472M3.82 11a13.7 13.7 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5zm6.853 3.472A7 7 0 0 0 13.745 12H11.91a9.3 9.3 0 0 1-.64 1.539 7 7 0 0 1-.597.933M8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855q.26-.487.468-1.068zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.7 13.7 0 0 1-.312 2.5m2.802-3.5a7 7 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7 7 0 0 0-3.072-2.472c.218.284.418.598.597.933M10.855 4a8 8 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4z" />
+                            </svg>
+                            ES
 </button>
-                <button class="rounded-xl px-4 py-2 font-medium transition bg-orange-500 hover:bg-orange-600 text-white">
-    Sign up
-</button>            </div>
+    </div>
+
+    
+    <div
+        data-dropdown-menu
+        class="absolute z-50 mt-2 hidden min-w-32 overflow-hidden rounded-2xl border border-slate-200 bg-[var(--bg)] text-[var(--text)] px-1.5 py-2 shadow-xl right-0 origin-top-right"
+    >
+        <a href="http://127.0.0.1:8000/lang/en" class="block rounded-xl px-4 py-2 text-sm hover:bg-zinc-700">
+                        🇺🇸 English
+                    </a>
+
+                    <a href="http://127.0.0.1:8000/lang/es" class="block rounded-xl px-4 py-2 text-sm hover:bg-zinc-700">
+                        🇲🇽 Español
+                    </a>
+    </div>
+</div>            </div>
         </div>
 
-        <!-- Hamburger -->
         <button id="menuBtn"
-            class="flex items-center justify-center self-center rounded-lg p-2 dark:hover:bg-gray-700 hover:bg-gray-100 lg:hidden">
+            class="flex items-center justify-center self-center rounded-lg p-2 mr-3 dark:hover:bg-gray-700 hover:bg-gray-100 lg:hidden"
+            onclick="openDrawer('drawer-menu')">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-500" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
         </button>
-
     </nav>
 
-    
-
-    <section class="relative bg-pink-300 h-[calc(100vh-4rem)] flex flex-center text-center">
+    <section class="relative bg-violet-900 h-[calc(100vh-4rem)] flex flex-center text-center">
         <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
-            <source src="img/epickitchens.mp4" type="video/mp4">
+            <source src="http://127.0.0.1:8000/video/epickitchens.mp4" type="video/mp4">
         </video>
-        <div class="absolute inset-0 bg-black/30" style="background-image: url('img/grid_neg.png')">
+        <div class="absolute inset-0 bg-black/30" style="background-image: url('http://127.0.0.1:8000/img/grid_neg.png')">
         </div>
-
 
         <div
             class="relative z-10 flex flex-col justify-between items-center gap-6 w-full h-[calc(100%-12rem)] mb-[6rem] px-[max(2rem,6vw)]">
-            <img class="h-20 object-cover" src="img/logo_anahuacqro_classic.svg">
+            <img class="h-20 object-cover" src="http://127.0.0.1:8000/img/logo_anahuacqro_classic.svg">
 
             <div class="text-5xl lg:text-6xl font-['Zilla_Slab'] mb-4 font-semibold">
-                Engineering the future of culinary training and performance with computer vision
+                Diseñando el futuro de la formación y el desempeño culinario con visión por computadora
             </div>
 
             <div class="flex flex-col flex-wrap sm:flex-row gap-x-12 gap-y-4 text-3xl justify-center">
                 <button class="transition bg-orange-500 hover:bg-orange-600 text-white w-72 rounded-full font-light gradient p-3">
-    Join the lab
+    Únete al laboratorio
 </button>                <button class="transition bg-slate-100 hover:bg-slate-200 text-slate-900 w-72 rounded-full font-light p-3">
-    Explore
-                    research
+    Explorar investigación
 </button>            </div>
         </div>
     </section>
@@ -152,29 +235,26 @@
     <section class="min-h-screen py-9 flex-center flex-col pt-[5rem]" id="about">
         <div class="flex flex-col items-center justify-center gap-9 max-w-full">
             <div class="text-center text-2xl px-[5%] md:px-[20%]">
-                <div class="text-[2em] font-['Zilla_Slab'] font-extrabold mb-4 ">Transforming Precision.</div>
-                We develop state-of-the-art computer vision systems to augment human capability in professional
-                kitchens
-                and educational institutions.
+                <div class="text-[2em] font-['Zilla_Slab'] font-extrabold mb-4 ">Transformando la precisión.
+                </div>
+                Desarrollamos sistemas de visión por computadora de última generación para potenciar las capacidades humanas en cocinas profesionales e instituciones educativas.
             </div>
 
-            <div class="flex  text-violet-50 text-lg
-                    max-w-full overflow-x-scroll gap-5 px-[12.5%] center-scroll scrollbar-hidden
+            <div
+                class="flex text-violet-50 text-lg max-w-full overflow-x-scroll gap-5 px-[12.5%] center-scroll scrollbar-hidden">
 
-                    
-                       ">
                 <div class="lg:min-w-0 flex-1 p-6 bg-orange-800 rounded-3xl flex flex-row lg:flex-col items-center gap-3 min-w-[min(30rem,75vw)]">
-    <img class="rounded-3xl max-lg:max-h-40" src="img/uni.png" />
+    <img class="rounded-3xl max-lg:max-h-40" src="http://127.0.0.1:8000/img/ai_hygiene_monitoring.png" />
 
     Real-time tracking of uniforms, sanitization protocols, cross-contamination prevention.
 </div>
                 <div class="lg:min-w-0 flex-1 p-6 bg-orange-800 rounded-3xl flex flex-row lg:flex-col items-center gap-3 min-w-[min(30rem,75vw)]">
-    <img class="rounded-3xl max-lg:max-h-40" src="img/spec.png" />
+    <img class="rounded-3xl max-lg:max-h-40" src="http://127.0.0.1:8000/img/ai_quality_evaluation.png" />
 
     Spectral and visual analysis of ingredients and plating to ensure absolute consistency.
 </div>
                 <div class="lg:min-w-0 flex-1 p-6 bg-orange-800 rounded-3xl flex flex-row lg:flex-col items-center gap-3 min-w-[min(30rem,75vw)]">
-    <img class="rounded-3xl max-lg:max-h-40" src="img/kin.png" />
+    <img class="rounded-3xl max-lg:max-h-40" src="http://127.0.0.1:8000/img/ai_skill_assessment.png" />
 
     Kinematic tracking of culinary techniques, knife skills, and timing across complex recipes.
 </div>            </div>
@@ -185,25 +265,23 @@
         id="research">
         <div class="flex flex-col items-center justify-center px-[5%] gap-4 max-w-full">
 
+            <div class="text-[2em] font-['Zilla_Slab'] font-extrabold">
+                Aplicaciones reales a lo largo de todo el proceso gastronómico
+            </div>
 
             <div class="text-[2em] font-['Zilla_Slab'] font-extrabold">
-                Real world applications across the entire gastronomic process
+                Tendencias tecnológicas y aplicaciones
             </div>
-            This synthesis analyzes the evolution toward deep learning and hybrid models, highlighting
-            advanced
-            hardware
-            integration and the importance of ethics in professional kitchens.
 
-            <div class="text-[2em] font-['Zilla_Slab'] font-extrabold">Tech trends & Applications</div>
             <div class="flex gap-4 flex-col lg:flex-row">
-                <div img="img/prep.png" class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex items-center gap-4 overflow-hidden card-black">
-            <img class="h-20 w-20 lg:hidden xl:block" src="img/prep.png" />
+                <div img="http://127.0.0.1:8000/img/prep.png" class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex items-center gap-4 overflow-hidden card-black">
+            <img class="h-20 w-20 lg:hidden xl:block" src="http://127.0.0.1:8000/img/prep.png" />
     
     <div class="flex flex-col items-start gap-1 min-w-0">
         <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
-                            <img class="h-20 w-20 max-lg:hidden xl:hidden" src="img/prep.png" />
+                            <img class="h-20 w-20 max-lg:hidden xl:hidden" src="http://127.0.0.1:8000/img/prep.png" />
             
-            Prep (Mise en place)
+            Preparación (Mise en place)
         </div>
 
         <div class="text-zinc-400 text-xl">
@@ -211,30 +289,29 @@
         </div>
     </div>
 </div>
-                <div img="img/cooking.png" class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex items-center gap-4 overflow-hidden card-black">
-            <img class="h-20 w-20 lg:hidden xl:block" src="img/cooking.png" />
+                <div img="http://127.0.0.1:8000/img/cooking.png" class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex items-center gap-4 overflow-hidden card-black">
+            <img class="h-20 w-20 lg:hidden xl:block" src="http://127.0.0.1:8000/img/cooking.png" />
     
     <div class="flex flex-col items-start gap-1 min-w-0">
         <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
-                            <img class="h-20 w-20 max-lg:hidden xl:hidden" src="img/cooking.png" />
+                            <img class="h-20 w-20 max-lg:hidden xl:hidden" src="http://127.0.0.1:8000/img/cooking.png" />
             
-            Line cooking
+            Cocina en línea
         </div>
 
         <div class="text-zinc-400 text-xl">
-            Integration of LiDAR and tRGB improve real-time perception in high-stress autonomous
-                    kitchens
+            Integration of LiDAR and tRGB improve real-time perception in high-stress autonomous kitchens
         </div>
     </div>
 </div>
-                <div img="img/plating.png" class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex items-center gap-4 overflow-hidden card-black">
-            <img class="h-20 w-20 lg:hidden xl:block" src="img/plating.png" />
+                <div img="http://127.0.0.1:8000/img/plating.png" class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex items-center gap-4 overflow-hidden card-black">
+            <img class="h-20 w-20 lg:hidden xl:block" src="http://127.0.0.1:8000/img/plating.png" />
     
     <div class="flex flex-col items-start gap-1 min-w-0">
         <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
-                            <img class="h-20 w-20 max-lg:hidden xl:hidden" src="img/plating.png" />
+                            <img class="h-20 w-20 max-lg:hidden xl:hidden" src="http://127.0.0.1:8000/img/plating.png" />
             
-            Plating & QA
+            Emplatado y control de calidad
         </div>
 
         <div class="text-zinc-400 text-xl">
@@ -243,53 +320,50 @@
     </div>
 </div>            </div>
 
-            <div class="text-[2em] font-['Zilla_Slab'] font-extrabold">Ethics & privacy</div>
+            <div class="text-[2em] font-['Zilla_Slab'] font-extrabold">Ética y privacidad</div>
             <div class="flex gap-4 flex-col lg:flex-row">
-                <div img="img/privacy.png" class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex items-center gap-4 overflow-hidden card-black">
-            <img class="h-20 w-20 lg:hidden xl:block" src="img/privacy.png" />
+                <div img="http://127.0.0.1:8000/img/privacy.png" class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex items-center gap-4 overflow-hidden card-black">
+            <img class="h-20 w-20 lg:hidden xl:block" src="http://127.0.0.1:8000/img/privacy.png" />
     
     <div class="flex flex-col items-start gap-1 min-w-0">
         <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
-                            <img class="h-20 w-20 max-lg:hidden xl:hidden" src="img/privacy.png" />
+                            <img class="h-20 w-20 max-lg:hidden xl:hidden" src="http://127.0.0.1:8000/img/privacy.png" />
             
-            Privacy via Federated Learning
+            Privacidad mediante aprendizaje federado
         </div>
 
         <div class="text-zinc-400 text-xl">
-            Collaborative network training without sharing proprietary restaurant data, techniques, or
-                    secret recipes.
+            Entrenamiento colaborativo de redes sin compartir datos propietarios de restaurantes, técnicas o recetas secretas.
         </div>
     </div>
 </div>
-                <div img="img/ip.png" class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex items-center gap-4 overflow-hidden card-black">
-            <img class="h-20 w-20 lg:hidden xl:block" src="img/ip.png" />
+                <div img="http://127.0.0.1:8000/img/ip.png" class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex items-center gap-4 overflow-hidden card-black">
+            <img class="h-20 w-20 lg:hidden xl:block" src="http://127.0.0.1:8000/img/ip.png" />
     
     <div class="flex flex-col items-start gap-1 min-w-0">
         <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
-                            <img class="h-20 w-20 max-lg:hidden xl:hidden" src="img/ip.png" />
+                            <img class="h-20 w-20 max-lg:hidden xl:hidden" src="http://127.0.0.1:8000/img/ip.png" />
             
             Strict protocols for IP
         </div>
 
         <div class="text-zinc-400 text-xl">
-            Networked collaborative models with strict protocols to protect intellectual property in
-                    high-end gastronomy.
+            Networked collaborative models with strict protocols to protect intellectual property in high-end gastronomy.
         </div>
     </div>
 </div>
-                <div img="img/model.png" class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex items-center gap-4 overflow-hidden card-black">
-            <img class="h-20 w-20 lg:hidden xl:block" src="img/model.png" />
+                <div img="http://127.0.0.1:8000/img/model.png" class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex items-center gap-4 overflow-hidden card-black">
+            <img class="h-20 w-20 lg:hidden xl:block" src="http://127.0.0.1:8000/img/model.png" />
     
     <div class="flex flex-col items-start gap-1 min-w-0">
         <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
-                            <img class="h-20 w-20 max-lg:hidden xl:hidden" src="img/model.png" />
+                            <img class="h-20 w-20 max-lg:hidden xl:hidden" src="http://127.0.0.1:8000/img/model.png" />
             
             Unified Generative Models
         </div>
 
         <div class="text-zinc-400 text-xl">
-            Evolution towards multimodal architectures bridging explicit culinary rules with generative
-                    AI for operational robustness.
+            Evolution towards multimodal architectures bridging explicit culinary rules with generative AI for operational robustness.
         </div>
     </div>
 </div>            </div>
@@ -304,23 +378,20 @@
                     Applied Research
                 </div>
                 <div class="font-['Zilla_Slab'] text-xl">
-                    Bridging the gap between empirical gastronomy and computational perception to scale
-                    world-class
-                    culinary
-                    education globally.
+                    Bridging the gap between empirical gastronomy and computational perception to scale world-class culinary education globally.
                 </div>
 
                 <div class="flex gap-5 flex-wrap justify-center">
                     <div class="flex gap-5">
                         <div class="flex-1 flex flex-col items-center gap-2 text-xl">
-                            <div class="size-28 gradient-mask" style="--mask-image: url('img/eye.png')">
+                            <div class="size-28 gradient-mask" style="--mask-image: url('http://127.0.0.1:8000/img/eye.png')">
                             </div>
                             Input
                         </div>
 
                         <div class="flex-1 flex flex-col items-center gap-2 text-xl">
                             <div class="size-28 gradient-mask"
-                                style="--mask-image: url('img/braain.png')"></div>
+                                style="--mask-image: url('http://127.0.0.1:8000/img/braain.png')"></div>
                             Model
                         </div>
                     </div>
@@ -328,12 +399,12 @@
 
                         <div class="flex-1 flex flex-col items-center gap-2 text-xl">
                             <div class="size-28 gradient-mask"
-                                style="--mask-image: url('img/insightengine.png')"></div>
+                                style="--mask-image: url('http://127.0.0.1:8000/img/insightengine.png')"></div>
                             Insight
                         </div>
 
                         <div class="flex-1 flex flex-col items-center gap-2 text-xl">
-                            <div class="size-28 gradient-mask" style="--mask-image: url('img/hand.png')">
+                            <div class="size-28 gradient-mask" style="--mask-image: url('http://127.0.0.1:8000/img/hand.png')">
                             </div>
                             Action
                         </div>
@@ -347,47 +418,44 @@
     <div class="flex flex-col items-start gap-1 min-w-0">
         <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
             
-            AI-Powered Uniform Compliance System
+            Sistema de cumplimiento de uniformes impulsado por IA
         </div>
 
         <div class="text-zinc-400 text-xl">
             <div class="mb-2 text-base">
-                        Digitizes subjective culinary grading into objective quantitative metrics by mapping
-                        student
-                        plating against baseline master chef executions.
+                        Digitaliza evaluaciones culinarias subjetivas en métricas cuantitativas objetivas al comparar el emplatado estudiantil con ejecuciones base de chefs maestros.
                     </div>
 
                     <div class="flex gap-4 mb-2 text-base">
                         <div>
-                            How It Works
+                            Cómo funciona
                             <ul class="list-disc pl-6">
                                 <li>
-                                    Data: Edge-device video feeds via a QR deployment application.
+                                    Datos: transmisiones de video desde dispositivos edge mediante una aplicación de despliegue con QR.
                                 </li>
                                 <li>
-                                    Model: Object detection architecture following CRISP-DM methodology.
+                                    Modelo: arquitectura de detección de objetos siguiendo la metodología CRISP-DM.
                                 </li>
                                 <li>
-                                    Output: Real-time alerts identifying hat, jacket, apron, and pants.
+                                    Salida: alertas en tiempo real identificando gorro, chaqueta, mandil y pantalón.
                                 </li>
                             </ul>
                         </div>
 
                         <div>
-                            Value Generated
+                            Valor generado
                             <ul class="list-disc pl-6">
                                 <li>
-                                    Drastic reduction of manual oversight and inspection time.
+                                    Reducción drástica del tiempo de supervisión e inspección manual.
                                 </li>
                                 <li>
-                                    Unbiased operational standardization in hygiene safety.
+                                    Estandarización operativa imparcial en seguridad e higiene.
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="text-base">
-                        Scientific Evidence: Validated in field tests achieving ~85–86% precision across diverse
-                        culinary uniform items (Castillo-Ortiz et al., 2024a).
+                        Evidencia científica: validado en pruebas de campo alcanzando ~85–86% de precisión en diversos elementos de uniformes culinarios (Castillo-Ortiz et al., 2024a).
                     </div>
         </div>
     </div>
@@ -397,45 +465,44 @@
     <div class="flex flex-col items-start gap-1 min-w-0">
         <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
             
-            Culinary Skill Transfer Intelligence Engine
+            Motor inteligente de transferencia de habilidades culinarias
         </div>
 
         <div class="text-zinc-400 text-xl">
             <div class="mb-2 text-base">
-                        Digitizes subjective culinary grading into objective quantitative metrics by mapping
-                        student plating against baseline master chef executions.
+                        Digitaliza evaluaciones culinarias subjetivas en métricas cuantitativas objetivas al comparar el emplatado estudiantil con ejecuciones base de chefs maestros.
                     </div>
 
                     <div class="flex gap-4 mb-2 text-base">
                         <div>
-                            How It Works
+                            Cómo funciona
                             <ul class="list-disc pl-6">
                                 <li>
-                                    Data: High-resolution standardized plating imagery.
-                                <li>
-                                    Model: VGG-16 Deep Convolutional Neural Networks (CNNs).
+                                    Datos: imágenes estandarizadas de emplatado en alta resolución.
                                 </li>
                                 <li>
-                                    Output: Euclidean distance, cosine similarity, and perceptual loss scores.
+                                    Modelo: redes neuronales convolucionales profundas VGG-16 (CNNs).
+                                </li>
+                                <li>
+                                    Salida: distancia euclidiana, similitud coseno y métricas de pérdida perceptual.
                                 </li>
                             </ul>
                         </div>
 
                         <div>
-                            Value Generated
+                            Valor generado
                             <ul class="list-disc pl-6">
                                 <li>
-                                    Objective, quantifiable evaluation of culinary performance.
+                                    Evaluación objetiva y cuantificable del desempeño culinario.
                                 </li>
                                 <li>
-                                    Global scalability for culinary education.
+                                    Escalabilidad global para la educación culinaria.
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="text-base">
-                        Scientific Evidence: Validated in field tests achieving ~85–86% precision across diverse
-                        culinary uniform items (Castillo-Ortiz et al., 2024a).
+                        Evidencia científica: validado en pruebas de campo alcanzando ~85–86% de precisión en diversos elementos de uniformes culinarios (Castillo-Ortiz et al., 2024a).
                     </div>
         </div>
     </div>
@@ -444,59 +511,52 @@
     <div class="flex flex-col items-start gap-1 min-w-0">
         <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
             
-            Smart Kitchen Vision Systems
+            Sistemas de visión para cocinas inteligentes
         </div>
 
         <div class="text-zinc-400 text-xl">
             <div class="mb-2 text-base">
-                        Scientific Evidence: An integrated spatial computing network that monitors, anticipates,
-                        and orchestrates the
-                        professional kitchen floor.
+                        Una red integrada de computación espacial que monitorea, anticipa y orquesta el entorno de cocinas profesionales.
                     </div>
 
                     <div class="flex gap-4 mb-2 text-base">
                         <div>
-                            How It Works
+                            Cómo funciona
                             <ul class="list-disc pl-6">
                                 <li>
-                                    Data: Multimodal inputs from IoT edge nodes and optical sensors.
-                                <li>
-                                    Model: Fused object detection and semantic segmentation pipelines.
+                                    Datos: entradas multimodales provenientes de nodos IoT y sensores ópticos.
                                 </li>
                                 <li>
-                                    Output: Centralized dashboard for kitchen automation & safety.
+                                    Modelo: pipelines fusionados de detección de objetos y segmentación semántica.
+                                </li>
+                                <li>
+                                    Salida: panel centralizado para automatización y seguridad en cocina.
                                 </li>
                             </ul>
                         </div>
 
                         <div>
-                            Value Generated
+                            Valor generado
                             <ul class="list-disc pl-6">
                                 <li>
-                                    Frictionless automation of standard back-of-house processes.
+                                    Automatización fluida de procesos estándar de back-of-house.
                                 </li>
                                 <li>
-                                    Industrial scalability from educational labs to enterprise hospitality.
+                                    Escalabilidad industrial desde laboratorios educativos hasta hospitalidad empresarial.
                                 </li>
                             </ul>
-
-
                         </div>
                     </div>
 
                     <div class="text-base">
-                        Scientific Evidence: Integrates the foundations of uniform compliance (Castillo-Ortiz et
-                        al., 2024a) and
-                        quality evaluation (Castillo-Ortiz et al., 2024b) into a unified ambient operating
-                        system.
+                        Evidencia científica: integra los fundamentos del cumplimiento de uniformes (Castillo-Ortiz et al., 2024a) y la evaluación de calidad (Castillo-Ortiz et al., 2024b) en un sistema operativo ambiental unificado.
                     </div>
         </div>
     </div>
 </div>            </div>
 
-            <button class="transition bg-orange-500 hover:bg-orange-600 text-white text-2xl font-light rounded-full p-2 px-6 gradient">
-    Browse all projects
-</button>
+            
+
 
         </div>
     </section>
@@ -504,10 +564,12 @@
     <section id="opportunities"
         class="min-h-screen py-9 px-[max(2rem,5%)] bg-zinc-900 flex-center flex-col text-center bg-gradient-to-b from-[#ff590044] to-[#ff590088] pt-[5rem]">
 
-        <div class="text-5xl font-['Zilla_Slab'] font-extrabold mb-4 ">Join the frontier</div>
+        <div class="text-5xl font-['Zilla_Slab'] font-extrabold mb-4 ">
+            Únete a la frontera
+        </div>
 
         <div class="text-3xl mb-4 font-light">
-            We are actively seeking brilliant minds to help build the future of gastronomy.
+            Estamos buscando activamente mentes brillantes para construir el futuro de la gastronomía.
         </div>
 
         <div class="flex gap-4 flex-col md:flex-row">
@@ -515,128 +577,1054 @@
             <div class="flex-1 rounded-3xl border-2 border-[currentcolor] p-5 hover:text-orange-500 hover:bg-zinc-800 transition flex flex-col gap-5 text-left group">
     <div>
         <div class="text-3xl font-extrabold">
-            Students
+            Estudiantes
         </div>
 
-        Undergraduate and postgraduate positions for those passionate about integrating ML with culinary
-                arts.
+        Posiciones de licenciatura y posgrado para quienes sienten pasión por integrar ML con las artes culinarias.
 
                 <ul class="mt-4 list-disc pl-5">
-                    <li>NVIDIA certifications & training</li>
-                    <li>Real-world AI deployment pipeline</li>
-                    <li>Thesis supervision</li>
+                    <li>Certificaciones y entrenamiento NVIDIA</li>
+                    <li>Pipeline de despliegue real de IA</li>
+                    <li>Asesoría de tesis</li>
                 </ul>
     </div>
 
-    <a
-        href="/apply-student"
+    <button
+        onclick="openModal('modal-apply-student')"
         class="self-center mt-auto rounded-full bg-white px-4 py-3 text-xl text-zinc-900 transition hover:text-white group-hover:bg-orange-500"
     >
-        Apply as student
-    </a>
+        Aplicar como estudiante
+    </button>
 </div>            <div class="flex-1 rounded-3xl border-2 border-[currentcolor] p-5 hover:text-orange-500 hover:bg-zinc-800 transition flex flex-col gap-5 text-left group">
     <div>
         <div class="text-3xl font-extrabold">
-            Researchers
+            Investigadores
         </div>
 
-        Post-docs and PhD candidates driving novel computer vision architectures in unconstrained
-                environments.
+        Postdoctorantes y candidatos a doctorado desarrollando nuevas arquitecturas de visión por computadora en entornos no controlados.
 
                 <ul class="mt-4 list-disc pl-5">
-                    <li>Compute cluster access (A100s)</li>
-                    <li>Conference publications (CVPR, CHI)</li>
-                    <li>Prototyping budget</li>
+                    <li>Acceso a clúster de cómputo (A100s)</li>
+                    <li>Publicaciones en conferencias (CVPR, CHI)</li>
+                    <li>Presupuesto para prototipos</li>
                 </ul>
     </div>
 
-    <a
-        href="/positions"
+    <button
+        onclick="openModal('modal-apply-researcher')"
         class="self-center mt-auto rounded-full bg-white px-4 py-3 text-xl text-zinc-900 transition hover:text-white group-hover:bg-orange-500"
     >
-        View open positions
-    </a>
+        Ver posiciones abiertas
+    </button>
 </div>
             <div class="flex-1 rounded-3xl border-2 border-[currentcolor] p-5 hover:text-orange-500 hover:bg-zinc-800 transition flex flex-col gap-5 text-left group">
     <div>
         <div class="text-3xl font-extrabold">
-            Industry Partners
+            Socios industriales
         </div>
 
-        Culinary institutions, ghost kitchens, and tech giants looking to deploy our systems or
-                collaborate.
+        Instituciones culinarias, ghost kitchens y empresas tecnológicas interesadas en desplegar nuestros sistemas o colaborar.
 
                 <ul class="mt-4 list-disc pl-5">
-                    <li>Pilot program integration</li>
-                    <li>Custom model tuning</li>
-                    <li>Licensing opportunities</li>
+                    <li>Integración de programas piloto</li>
+                    <li>Ajuste personalizado de modelos</li>
+                    <li>Oportunidades de licenciamiento</li>
                 </ul>
     </div>
 
-    <a
-        href="/partners"
+    <button
+        onclick="openModal('modal-apply-industry')"
         class="self-center mt-auto rounded-full bg-white px-4 py-3 text-xl text-zinc-900 transition hover:text-white group-hover:bg-orange-500"
     >
-        Partner with us
-    </a>
+        Asóciate con nosotros
+    </button>
 </div>
         </div>
-
-
 
     </section>
 
     <footer class="bg-neutral-900 px-14 pt-16 pb-14 text-violet-50">
         <div class="flex flex-col gap-8">
-
             <div class="flex flex-col gap-12 lg:flex-row lg:justify-between">
-
-                <!-- Brand -->
                 <div class="max-w-md">
-                    <h2 class="text-2xl leading-8">
-                        🟩 GastroVision Lab
+                    <h2 class="text-2xl leading-8 inline-flex items-end gap-2">
+                        <img class="size-[1.5em] inline-block" src="http://127.0.0.1:8000/img/logo_bitmap.png">
+                        GastroVision Lab
                     </h2>
 
                     <p class="mt-2 text-base leading-6 text-violet-50/60">
-                        Engineering the future of culinary training with computer vision.
+                        Diseñando el futuro de la formación culinaria con visión por computadora.
                     </p>
                 </div>
 
-                <!-- Links -->
                 <div class="flex flex-wrap gap-14">
-
-
-
                     <div class="flex w-48 flex-col gap-4">
                         <h3 class="text-2xl font-semibold leading-8">
-                            Explore
+                            Explorar
                         </h3>
 
                         <a class="text-2xl leading-8 text-violet-50/60" href="#about">
-                            What we do
+                            Qué hacemos
                         </a>
 
                         <a class="text-2xl leading-8 text-violet-50/60" href="#research">
-                            Research
+                            Investigación
                         </a>
 
                         <a class="text-2xl leading-8 text-violet-50/60" href="#projects">
-                            Projects
+                            Proyectos
                         </a>
                     </div>
-
                 </div>
             </div>
 
             <p class="text-lg leading-8">
-                © 2026 GastroVision Lab. All rights reserved.
+                © 2026 GastroVision Lab. Todos los derechos reservados.
             </p>
-
         </div>
     </footer>
 
 
+    <div class="drawer-wrapper">
+    <div id="drawer-menu" class="drawer right" style="--width:45rem;">   
+        <div class="d-flex align-items-center gap-2 zilla fs-3 pl-3 pr-1 py-2 border-bottom">
+            
+            <div class="flex-1 align-self-start">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeDrawer()">
+                    &times;
+                </a>
+            </div>
+        </div>
 
+        <div class="flex-1 overflow-auto px-3" style="scrollbar-gutter: stable;">
+            <div class="flex flex-col gap-2">
+            <a href="#about" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700" onclick="closeDrawer()">
+                Qué hacemos
+            </a>
+
+            <a href="#research" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700" onclick="closeDrawer()">
+                Áreas de investigación
+            </a>
+
+            <a href="#projects" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700" onclick="closeDrawer()">
+                Proyectos
+            </a>
+
+            <a href="#opportunities" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700" onclick="closeDrawer()">
+                Oportunidades
+            </a>
+
+            <div class="ml-2 mt-2">
+                <div
+    x-data="{}"
+    class="relative inline-block"
+    data-dropdown
+    id="dropdown-6a0de51ce4d20"
+>
+    
+    <div data-dropdown-trigger>
+        <button class="rounded-xl font-medium transition hover:bg-gray-100 border border-gray-200 text-gray-200 hover:text-gray-900 flex gap-2 items-center py-1 px-3">
+    <svg xmlns="http://www.w3.org/2000/svg" class="size-[1em]" fill="currentColor"
+                                class="bi bi-globe" viewBox="0 0 16 16">
+                                <path
+                                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m7.5-6.923c-.67.204-1.335.82-1.887 1.855A8 8 0 0 0 5.145 4H7.5zM4.09 4a9.3 9.3 0 0 1 .64-1.539 7 7 0 0 1 .597-.933A7.03 7.03 0 0 0 2.255 4zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a7 7 0 0 0-.656 2.5zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5zM8.5 5v2.5h2.99a12.5 12.5 0 0 0-.337-2.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5zM5.145 12q.208.58.468 1.068c.552 1.035 1.218 1.65 1.887 1.855V12zm.182 2.472a7 7 0 0 1-.597-.933A9.3 9.3 0 0 1 4.09 12H2.255a7 7 0 0 0 3.072 2.472M3.82 11a13.7 13.7 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5zm6.853 3.472A7 7 0 0 0 13.745 12H11.91a9.3 9.3 0 0 1-.64 1.539 7 7 0 0 1-.597.933M8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855q.26-.487.468-1.068zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.7 13.7 0 0 1-.312 2.5m2.802-3.5a7 7 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7 7 0 0 0-3.072-2.472c.218.284.418.598.597.933M10.855 4a8 8 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4z" />
+                            </svg>
+                            ES
+</button>
+    </div>
+
+    
+    <div
+        data-dropdown-menu
+        class="absolute z-50 mt-2 hidden min-w-32 overflow-hidden rounded-2xl border border-slate-200 bg-[var(--bg)] text-[var(--text)] px-1.5 py-2 shadow-xl left-0 origin-top-left"
+    >
+        <a href="http://127.0.0.1:8000/lang/en" class="block rounded-xl px-4 py-2 text-sm hover:bg-zinc-700">
+                        🇺🇸 English
+                    </a>
+
+                    <a href="http://127.0.0.1:8000/lang/es" class="block rounded-xl px-4 py-2 text-sm hover:bg-zinc-700">
+                        🇲🇽 Español
+                    </a>
+    </div>
+</div> 
+            </div>
+        </div>
+        </div>
+
+        <div class="px-3 pb-3 border-top">
+            
+        </div>
+    </div>
+</div>
+
+
+    <script>
+        function lockBodyScroll(locked) {
+            const body = document.body;
+
+            if (locked) {
+                if (body.classList.contains('overflow-hidden')) return;
+
+                const scrollbarWidth =
+                    window.innerWidth - document.documentElement.clientWidth;
+
+                body.classList.add('overflow-hidden');
+                body.style.paddingRight = scrollbarWidth + 'px';
+            } else {
+                body.classList.remove('overflow-hidden');
+                body.style.paddingRight = '';
+            }
+        }
+
+        function openDrawer(id) {
+            const drawer = document.getElementById(id);
+            drawer?.classList.add('drawer-open');
+            lockBodyScroll(true);
+        }
+
+        function closeDrawer(id = null) {
+            const drawers = id
+                ? [document.getElementById(id)]
+                : document.querySelectorAll('.drawer-open');
+
+            drawers.forEach(drawer => {
+                drawer?.classList.remove('drawer-open');
+            });
+
+            if (!document.querySelector('.drawer-open')) {
+                lockBodyScroll(false);
+            }
+        }
+
+        document.addEventListener('mousedown', function (e) {
+            if (e.target.closest('.modal.show')) return;
+
+            if (e.target.closest('.swal2-container')) return;
+
+            const drawer = document.querySelector('.drawer-open');
+
+            if (!drawer) return;
+
+            if (!drawer.contains(e.target)) {
+                drawer.classList.remove('drawer-open');
+                lockBodyScroll(false);
+            }
+        });
+
+        window.addEventListener('resize', function () {
+            if (window.innerWidth >= 768) {
+                document
+                    .querySelectorAll('.drawer-open')
+                    .forEach(el => el.classList.remove('drawer-open'));
+
+                lockBodyScroll(false);
+            }
+        });
+    </script>
+
+
+    <div id="modal-apply-student"
+     data-closable="1"
+     class="fixed inset-0 z-[60] hidden opacity-0 pointer-events-none transition-opacity duration-300 flex flex-col justify-center items-center">
+
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/50 backdrop"></div>
+
+    <!-- Modal box -->
+    <div class="relative bg-zinc-800 text-[var(--text)] rounded-lg shadow-lg mx-auto w-full max-w-[min(calc(100vw-1.5rem),100ch)] flex flex-col 
+     max-h-[calc(100%-min(5rem,5vh))] p-6 scale-95 transition-opacity transition-transform duration-300 modal-box">
+
+        <div class="flex w-[calc(100%+3rem)] px-6 justify-between border-b border-gray-600 -mx-6">
+                            <h2 class="text-xl font-semibold mb-4">Aplicar como estudiante</h2>
+             
+                <button type="button"
+                    class="ml-auto size-[1.5rem] font-light text-neutral-500 hover:text-neutral-800 text-[1.5rem]/none close-modal ">
+                    &times;
+                </button> 
+        </div>
+
+        <div class="flex-1 min-h-0 overflow-auto px-4 py-4">
+            <form class="flex flex-wrap gap-4" id="form-apply-student">
+            <!-- 🧩 Section 1 -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Antecedentes y motivación
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Cuál es tu programa académico e institución actual?</label>
+                <input type="text" name="program" class="border rounded-md px-3 py-2 text-slate-800" required />
+            </div>
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">
+                    ¿Por qué te interesa combinar gastronomía e inteligencia artificial?
+                </label>
+                <textarea name="motivation" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Cuál de las siguientes opciones describe mejor tu objetivo?</label>
+                <select name="goal" class="border rounded-md px-3 py-2 text-slate-800" required>
+                    <option value="">Selecciona una opción...</option>
+                    <option>Trabajar en la industria (IA/tecnología)</option>
+                    <option>Investigación académica</option>
+                    <option>Emprendimiento</option>
+                    <option>Innovación culinaria</option>
+                </select>
+            </div>
+            <!-- 🧠 Section 2 -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Fundamentos técnicos
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Califica tu nivel de programación</label>
+
+                <select name="programming_level" class="border rounded-md px-3 py-2 text-slate-800" required>
+                    <option value="1">1 — Sin experiencia</option>
+                    <option value="2">2 — Comprensión básica (tutoriales)</option>
+                    <option value="3">3 — Puede desarrollar proyectos simples</option>
+                    <option value="4">4 — Cómodo desarrollando aplicaciones reales</option>
+                    <option value="5">5 — Experiencia avanzada / en producción</option>
+                </select>
+            </div>
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Has trabajado con alguna de las siguientes áreas?</label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="tech[]" value="none" />
+                    Ninguna
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="tech[]" value="cv" />
+                    Visión por computadora
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="tech[]" value="ml" />
+                    Aprendizaje automático
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="tech[]" value="data" />
+                    Análisis de datos
+                </label>
+            </div>
+            <div class="flex flex-col gap-2 w-full">
+                <label
+                    class="text-sm">Describe un proyecto donde resolviste un problema utilizando datos o tecnología</label>
+                <textarea name="project" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+            <!-- 🍳 Section 3 -->
+            <h2 class="text-lg font-semibold mt-4 w-full">Pensamiento culinario y aplicado</h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label
+                    class="text-sm">¿Cómo utilizarías visión por computadora para mejorar una cocina profesional?</label>
+                <textarea name="cv_kitchen" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+            <div class="flex flex-col gap-2 w-full">
+                <label
+                    class="text-sm">Identifica una ineficiencia en una cocina y propone una solución tecnológica
+                </label>
+                <textarea name="efficiency" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+            <!-- 🚀 Section 4 -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Compromiso y compatibilidad
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Cuántas horas por semana puedes dedicar?
+
+                </label>
+                <select name="hours" class="border rounded-md px-3 py-2 text-slate-800" required>
+                    <option value="">Selecciona una opción...</option>
+                    <option>5–10</option>
+                    <option>10–20</option>
+                    <option>20–40</option>
+                    <option>40+</option>
+                </select>
+            </div>
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Te interesa?</label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="interests[]" value="research" />
+                    Publicación científica
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="interests[]" value="nvidia" />
+                    Certificaciones NVIDIA
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="interests[]" value="deployment" />
+                    Despliegue en entornos reales
+                </label>
+            </div>
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Por qué deberíamos seleccionarte sobre otros candidatos?
+                </label>
+                <textarea name="why_you" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+        </form>
+        </div>
+
+        <div class="border-t my-4 border-gray-600"></div>
+                            <div class="flex gap-4 justify-end">
+                <button class="rounded-xl px-4 py-2 font-medium transition bg-slate-500 hover:bg-slate-600 text-white close-modal">
+    Volver
+</button>                <button type="submit" form="form-apply-student" class="rounded-xl px-4 py-2 font-medium transition bg-orange-500 hover:bg-orange-600 text-white">
+    Enviar
+</button>            </div>
+                </div>
+</div>
+
+    <script>
+        class ModalController {
+            constructor() {
+                this.activeModal = null;
+
+                document.addEventListener("keydown", (e) => {
+                    if (e.key === "Escape" && this.activeModal) {
+                        if (this.activeModal.dataset.closable === "1") {
+                            this.close(this.activeModal.id);
+                        }
+                    }
+                });
+            }
+
+            open(id) {
+                const modal = document.getElementById(id);
+                if (!modal) return;
+
+                this.activeModal = modal;
+
+                modal.classList.remove("hidden", "pointer-events-none");
+                document.body.classList.add("overflow-hidden");
+
+                requestAnimationFrame(() => {
+                    modal.classList.remove("opacity-0");
+                    modal.querySelector(".modal-box").classList.remove("scale-95");
+                });
+            }
+
+            close(id) {
+                const modal = document.getElementById(id);
+                if (!modal || modal.dataset.closable !== "1") return;
+
+                modal.classList.add("opacity-0");
+                modal.querySelector(".modal-box").classList.add("scale-95");
+
+                setTimeout(() => {
+                    modal.classList.add("hidden", "pointer-events-none");
+                    document.body.classList.remove("overflow-hidden");
+                }, 300);
+
+                this.activeModal = null;
+            }
+
+            toggle(id) {
+                const modal = document.getElementById(id);
+                if (modal.classList.contains("hidden")) this.open(id);
+                else this.close(id);
+            }
+
+            setClosable(id, closable) {
+                const modal = document.getElementById(id);
+                if (!modal) return;
+
+                modal.dataset.closable = closable ? "1" : "0";
+
+                modal.querySelectorAll(".close-modal").forEach(btn => {
+                    if (closable) {
+                        btn.classList.remove("disabled", "opacity-50", "pointer-events-none");
+                    } else {
+                        btn.classList.add("disabled", "opacity-50", "pointer-events-none");
+                    }
+                });
+            }
+
+        }
+
+        window.Modal = new ModalController();
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".close-modal").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const modal = btn.closest("[id]");
+                    Modal.close(modal.id);
+                });
+            });
+
+            document.querySelectorAll("[id] > .backdrop").forEach(backdrop => {
+                backdrop.addEventListener("click", () => {
+                    const modal = backdrop.parentElement;
+                    if (modal.dataset.closable === "1") {
+                        Modal.close(modal.id);
+                    }
+                });
+            });
+        });
+
+        function openModal(id) {
+            requestAnimationFrame(() => {
+                Modal.open(id);
+            });
+        }
+
+        function closeModal(id) {
+            requestAnimationFrame(() => {
+                Modal.close(id);
+            });
+        }
+    </script>
+
+
+
+    <div id="modal-apply-researcher"
+     data-closable="1"
+     class="fixed inset-0 z-[60] hidden opacity-0 pointer-events-none transition-opacity duration-300 flex flex-col justify-center items-center">
+
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/50 backdrop"></div>
+
+    <!-- Modal box -->
+    <div class="relative bg-zinc-800 text-[var(--text)] rounded-lg shadow-lg mx-auto w-full max-w-[min(calc(100vw-1.5rem),100ch)] flex flex-col 
+     max-h-[calc(100%-min(5rem,5vh))] p-6 scale-95 transition-opacity transition-transform duration-300 modal-box">
+
+        <div class="flex w-[calc(100%+3rem)] px-6 justify-between border-b border-gray-600 -mx-6">
+                            <h2 class="text-xl font-semibold mb-4">Aplicar como investigador</h2>
+             
+                <button type="button"
+                    class="ml-auto size-[1.5rem] font-light text-neutral-500 hover:text-neutral-800 text-[1.5rem]/none close-modal ">
+                    &times;
+                </button> 
+        </div>
+
+        <div class="flex-1 min-h-0 overflow-auto px-4 py-4">
+            <form class="flex flex-wrap gap-4" id="form-apply-researcher">
+
+            <!-- 🧩 Section 1: Academic Profile -->
+            <h2 class="text-lg font-semibold w-full flex items-center gap-3">
+                Perfil académico
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Afiliación actual y grado académico más alto</label>
+                <input type="text" name="affiliation_degree" class="border rounded-md px-3 py-2 text-slate-800"
+                    required />
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Enumera tus 3 publicaciones principales</label>
+                <textarea name="publications" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">
+                    ¿Has publicado en revistas o conferencias indexadas?
+                </label>
+
+                <div class="flex flex-col gap-2">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="indexed_publications" value="q1" required />
+                        Revistas Q1
+                    </label>
+
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="indexed_publications" value="tier1" />
+                        Conferencias Tier-1 (CVPR, CHI, NeurIPS)
+                    </label>
+
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="indexed_publications" value="regional" />
+                        Revistas regionales
+                    </label>
+
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="indexed_publications" value="none" />
+                        Sin publicaciones
+                    </label>
+                </div>
+            </div>
+
+            <!-- 🧠 Section 2: Technical Depth -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Profundidad técnica
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">
+                    Describe tu experiencia con arquitecturas de visión por computadora
+                </label>
+                <textarea name="cv_experience" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Qué frameworks has utilizado?</label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="frameworks[]" value="pytorch" />
+                    PyTorch
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="frameworks[]" value="tensorflow" />
+                    TensorFlow
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="frameworks[]" value="opencv" />
+                    OpenCV
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="frameworks[]" value="custom" />
+                    Pipelines personalizados
+                </label>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">
+                    Explica cómo diseñarías un modelo para monitoreo de cocina en tiempo real
+                </label>
+                <textarea name="kitchen_model_design" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <!-- 🔬 Section 3: Research Thinking -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Pensamiento de investigación
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">
+                    ¿Cuál es una brecha importante de investigación en visión por computadora aplicada a cocinas?
+                </label>
+                <textarea name="research_gap" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">
+                    ¿Cómo diseñarías un dataset para entornos de cocina?
+                </label>
+                <textarea name="dataset_design" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">
+                    Discute los compromisos entre precisión y latencia en sistemas en tiempo real
+                </label>
+                <textarea name="tradeoffs" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <!-- ⚙️ Section 4: Applied Deployment -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Despliegue aplicado
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">
+                    Describe un proyecto donde desplegaste un modelo en un entorno real
+                </label>
+                <textarea name="deployment_project" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Experiencia con IoT o fusión de sensores?</label>
+                <div class="flex gap-2 w-full">
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" name="iotsensor_experience[]" value="iot" />
+                        IoT
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" name="iotsensor_experience[]" value="sensorfusion" />
+                        Fusión de sensores
+                    </label>
+                </div>
+                <textarea name="iotsensor_experience" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    :placeholder="__('Explain...')" required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">
+                    ¿Cómo integrarías visión por computadora con sistemas de hardware de cocina?
+                </label>
+                <textarea name="cv_hardware_integration"
+                    class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800" required></textarea>
+            </div>
+
+            <!-- 🧭 Section 5: Vision & Alignment -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Visión y alineación
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Qué línea de investigación desarrollarías en este laboratorio?</label>
+                <textarea name="research_line" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">
+                    ¿Cómo orientarías tu trabajo hacia una publicación en CVPR/CHI?
+                </label>
+                <textarea name="publication_strategy" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Qué impacto quieres que genere tu investigación?</label>
+                <textarea name="impact" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <!-- 🔥 Section 6: Execution Capability -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Capacidad de ejecución
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Disponibilidad (tiempo completo / medio tiempo)</label>
+                <select name="availability" class="border rounded-md px-3 py-2 text-slate-800" required>
+                    <option value="">Selecciona una opción...</option>
+                    <option value="full-time">tiempo completo</option>
+                    <option value="part-time">medio tiempo</option>
+                </select>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Experiencia liderando equipos?</label>
+
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="team_leadership" value="yes" required />
+                    Sí
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="team_leadership" value="no" />
+                    No
+                </label>
+
+                <textarea name="team_leadership_explanation"
+                    class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800" :placeholder="__('Explain...')"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Describe tu proyecto de investigación ideal en este laboratorio</label>
+                <textarea name="ideal_project" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+        </form>
+        </div>
+
+        <div class="border-t my-4 border-gray-600"></div>
+                            <button class="rounded-xl px-4 py-2 font-medium transition bg-orange-500 hover:bg-orange-600 text-white close-modal self-end">
+    Cerrar
+</button>                </div>
+</div>
+
+
+
+    <div id="modal-apply-industry"
+     data-closable="1"
+     class="fixed inset-0 z-[60] hidden opacity-0 pointer-events-none transition-opacity duration-300 flex flex-col justify-center items-center">
+
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/50 backdrop"></div>
+
+    <!-- Modal box -->
+    <div class="relative bg-zinc-800 text-[var(--text)] rounded-lg shadow-lg mx-auto w-full max-w-[min(calc(100vw-1.5rem),100ch)] flex flex-col 
+     max-h-[calc(100%-min(5rem,5vh))] p-6 scale-95 transition-opacity transition-transform duration-300 modal-box">
+
+        <div class="flex w-[calc(100%+3rem)] px-6 justify-between border-b border-gray-600 -mx-6">
+                            <h2 class="text-xl font-semibold mb-4">Aplicar como socio industrial</h2>
+             
+                <button type="button"
+                    class="ml-auto size-[1.5rem] font-light text-neutral-500 hover:text-neutral-800 text-[1.5rem]/none close-modal ">
+                    &times;
+                </button> 
+        </div>
+
+        <div class="flex-1 min-h-0 overflow-auto px-4 py-4">
+            <form class="flex flex-wrap gap-4" id="form-apply-industry">
+
+            <!-- 🧩 Section 1: Company Profile -->
+            <h2 class="text-lg font-semibold w-full flex items-center gap-3">
+                Perfil de la empresa
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Nombre de la empresa, industria y tamaño</label>
+                <input type="text" name="company_profile" class="border rounded-md px-3 py-2 text-slate-800" required />
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">
+                    ¿Operan en alimentos, hospitalidad o tecnología?
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="industries[]" value="food" />
+                    Alimentos
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="industries[]" value="hospitality" />
+                    Hospitalidad
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="industries[]" value="tech" />
+                    Tecnología
+                </label>
+            </div>
+
+            <!-- 💼 Section 2: Use Case Identification -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Identificación de caso de uso
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Qué problema están tratando de resolver?</label>
+                <textarea name="problem" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Qué áreas son relevantes?</label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="areas[]" value="quality" />
+                    Control de calidad alimentaria
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="areas[]" value="hygiene" />
+                    Monitoreo de higiene
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="areas[]" value="automation" />
+                    Automatización
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="areas[]" value="customer_experience" />
+                    Experiencia del cliente
+                </label>
+            </div>
+
+            <!-- 📊 Section 3: Data & Infrastructure -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Datos e infraestructura
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Actualmente recopilan datos visuales?</label>
+
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="visual_data" value="yes" required />
+                    Sí
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="visual_data" value="no" />
+                    No
+                </label>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Qué tipo?</label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="data_types[]" value="cameras" />
+                    Cámaras
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="data_types[]" value="sensors" />
+                    Sensores
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="data_types[]" value="pos" />
+                    Sistemas POS
+                </label>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Volumen estimado de datos</label>
+
+                <select name="data_volume" class="border rounded-md px-3 py-2 text-slate-800" required>
+                    <option value="">Selecciona una opción...</option>
+                    <option value="none">Actualmente no recopilamos datos</option>
+                    <option value="low">Bajo: menos de 100 imágenes o registros por semana</option>
+                    <option value="medium">Moderado: 100-1000 imágenes o registros por semana</option>
+                    <option value="high">Alto: 1000-10000 imágenes o registros por semana</option>
+                    <option value="veryhigh">Muy alto: más de 10000 imágenes o registros por semana</option>
+                    <option value="continuous">Video en tiempo real, sensores o datos POS</option>
+                    <option value="unsure">No estoy seguro / requiere evaluación técnica</option>
+                </select>
+            </div>
+
+            <!-- ⚙️ Section 4: Technical Readiness -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Preparación técnica
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Tienen un equipo técnico interno?</label>
+
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="tech_team" value="yes" required />
+                    Sí
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="radio" name="tech_team" value="no" />
+                    No
+                </label>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Experiencia con IA?</label>
+
+                <select name="ai_experience" class="border rounded-md px-3 py-2 text-slate-800" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+
+            <!-- 🚀 Section 5: Business & ROI -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Negocio y ROI
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Cómo se vería el éxito en 6 meses?</label>
+                <textarea name="success_6months" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Rango de presupuesto</label>
+
+                <select name="budget_range" class="border rounded-md px-3 py-2 text-slate-800">
+                    <option value="">Selecciona una opción...</option>
+                    <option value="undefined">Aún no definido</option>
+                    <option value="exploratory">Solo exploratorio / sin presupuesto asignado actualmente</option>
+                    <option value="<5000">Menos de USD $5000</option>
+                    <option value="5000-15000">USD $5000 - $15000</option>
+                    <option value="15001-50000">USD $15001 - $50000</option>
+                    <option value="50001-100000">USD $50001 - $100000</option>
+                    <option value=">100000">Más de $100000</option>
+                    <option value="open to defining">
+                        Abiertos a definir presupuesto después de una evaluación técnica
+                    </option>
+                    <option value="prefer not to disclose">
+                        Prefiero no revelarlo en esta etapa
+                    </option>
+                </select>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Interés en:</label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="interests[]" value="pilot" />
+                    Programa piloto
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="interests[]" value="custom_model" />
+                    Modelo de IA personalizado
+                </label>
+
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="interests[]" value="licensing" />
+                    Licenciamiento
+                </label>
+            </div>
+
+            <!-- 🤝 Section 6: Strategic Fit -->
+            <h2 class="text-lg font-semibold mt-4 w-full flex items-center gap-3">
+                Compatibilidad estratégica
+                <div class="flex-1 border-t border-gray-200"></div>
+            </h2>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">¿Por qué desean colaborar con este laboratorio?</label>
+                <textarea name="partnership_reason" class="border rounded-md px-3 py-2 min-h-[2.5em] text-slate-800"
+                    required></textarea>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full">
+                <label class="text-sm">Expectativas de tiempo</label>
+
+                <select name="timeline_expectations" class="border rounded-md px-3 py-2 text-slate-800" required>
+
+                    <option value="">Selecciona una opción...</option>
+                    <option value="exploratory">
+                        Solo conversación exploratoria
+                    </option>
+                    <option value="immediate">
+                        Inmediato: dentro de los próximos 30 días
+                    </option>
+                    <option value="1_3_months">
+                        Corto plazo: 1–3 meses
+                    </option>
+                    <option value="3_6_months">
+                        Mediano plazo: 3–6 meses
+                    </option>
+                    <option value="6_12_months">
+                        Largo plazo: 6–12 meses
+                    </option>
+                    <option value="6plus_months">
+                        Alianza estratégica: más de 12 meses
+                    </option>
+                    <option value="depends_feasibility">
+                        No estoy seguro / depende de la viabilidad técnica
+                    </option>
+                    <option value="depends_budget">
+                        No estoy seguro / depende de aprobación presupuestal
+                    </option>
+                </select>
+            </div>
+
+        </form>
+        </div>
+
+        <div class="border-t my-4 border-gray-600"></div>
+                            <button class="rounded-xl px-4 py-2 font-medium transition bg-orange-500 hover:bg-orange-600 text-white close-modal self-end">
+    Cerrar
+</button>                </div>
+</div>
 
 
 
@@ -739,6 +1727,37 @@
 
 
 
+
+    </script>
+
+    <script>
+        document.addEventListener('click', e => {
+            const dropdowns = document.querySelectorAll('[data-dropdown]');
+
+            dropdowns.forEach(dropdown => {
+                const trigger = dropdown.querySelector('[data-dropdown-trigger]');
+                const menu = dropdown.querySelector('[data-dropdown-menu]');
+
+                if (trigger.contains(e.target)) {
+                    const isOpen = !menu.classList.contains('hidden');
+
+                    dropdowns.forEach(d => {
+                        d.querySelector('[data-dropdown-menu]')
+                            ?.classList.add('hidden');
+                    });
+
+                    if (!isOpen) {
+                        menu.classList.remove('hidden');
+                    }
+
+                    return;
+                }
+
+                if (!dropdown.contains(e.target)) {
+                    menu.classList.add('hidden');
+                }
+            });
+        });
     </script>
 </body>
 
