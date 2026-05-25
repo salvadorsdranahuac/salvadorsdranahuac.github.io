@@ -3,11 +3,13 @@
     'breakpoint' => 'lg',
 ])
 
-<div {{ $attributes->twMerge("
-    min-w-[30rem] {$breakpoint}:min-w-0 flex-1 p-6 bg-orange-800 rounded-3xl
-    flex flex-row {$breakpoint}:flex-col items-center gap-3
-") }}>
-    <img class="rounded-3xl max-{{$breakpoint}}:max-h-40" src="{{ $image }}" />
-
+    <div {{ $attributes->twMerge("
+    min-w-[min(30rem,75vw)] {$breakpoint}:min-w-[33rem] flex-1 p-6 bg-orange-800 rounded-3xl overflow-hidden
+    flex flex-row {$breakpoint}:flex-col items-center gap-3") }}>
+        <div class="rounded-3xl min-h-32  {{$breakpoint}}:w-full {{$breakpoint}}:flex-1 overflow-hidden">
+            <img class="w-full h-full object-cover mt-[-15%] {{$breakpoint}}:mt-0" src="{{ $image }}" />
+        </div>
+    <div class="{{$breakpoint}}:h-[3em]">
     {{ $slot }}
+    </div>
 </div>

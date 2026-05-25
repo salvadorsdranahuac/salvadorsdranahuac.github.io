@@ -7,7 +7,7 @@
         <img class="h-20 w-20 lg:hidden xl:block" src="{{ $img }}" />
     @endif
 
-    <div class="flex flex-col items-start gap-1 min-w-0">
+    <div class="flex flex-col items-start gap-1 {{ empty($img) ? 'flex-1' : '' }}">
         <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
             @if(!empty($img))
                 <img class="h-20 w-20 max-lg:hidden xl:hidden" src="{{ $img }}" />
@@ -16,7 +16,7 @@
             {{ $title ?? '' }}
         </div>
 
-        <div class="text-zinc-400 text-xl">
+        <div class="text-zinc-400 text-xl w-full">
             {{ $slot }}
         </div>
     </div>

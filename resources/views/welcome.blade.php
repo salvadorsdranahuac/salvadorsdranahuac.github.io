@@ -21,6 +21,11 @@
             scroll-behavior: smooth;
         }
 
+        body {
+            scrollbar-gutter: stable;
+        }
+        
+
 
         :root {
             --bg: #FDFDFC;
@@ -141,7 +146,7 @@
 
 <body class="bg-[var(--bg)] text-[var(--text)] min-h-screen">
     <nav
-        class="sticky top-0 z-50 w-screen border-gray-200 bg-[var(--bg)] dark:border-gray-700 flex h-16 justify-between gap-4 pr-4 sm:pr-6 lg:pr-8">
+        class="sticky top-0 z-50  border-gray-200 bg-[var(--bg)] dark:border-gray-700 flex h-16 justify-between gap-4 pr-4 sm:pr-6 lg:pr-8">
         <div class="h-16 w-[172px] flex items-center justify-center bg-orange-500 py-3 px-6">
             <img class="w-full h-full object-cover" src="{{ asset('img/logo_anahuacqueretaro.svg') }}">
         </div>
@@ -212,10 +217,10 @@
             </div>
 
             <div class="flex flex-col flex-wrap sm:flex-row gap-x-12 gap-y-4 text-3xl justify-center">
-                <x-button class="w-72 rounded-full font-light gradient p-3">
+                <x-button class="w-80 rounded-full font-light gradient p-3">
                     {{ __('Join the lab') }}
                 </x-button>
-                <x-button class="w-72 rounded-full font-light p-3" color="slate" shade="100">
+                <x-button class="w-80 rounded-full font-light p-3" color="slate" shade="100">
                     {{ __('Explore research') }}
                 </x-button>
             </div>
@@ -230,21 +235,19 @@
                 {{ __('We develop state-of-the-art computer vision systems to augment human capability in professional kitchens and educational institutions.') }}
             </div>
 
-            <div
-                class="flex text-violet-50 text-lg max-w-full overflow-x-scroll gap-5 px-[12.5%] center-scroll scrollbar-hidden">
-
+            <div class="flex text-violet-50 text-lg max-w-full overflow-x-scroll gap-5 px-[12.5%] center-scroll scrollbar-hidden min-h-[10rem] max-h-[calc(100vh-19rem)]">
                 <x-welcome.card-feature image="{{ asset('img/ai_hygiene_monitoring.png') }}"
-                    class="min-w-[min(30rem,75vw)]">
+                    class="">
                     {{ __('Real-time tracking of uniforms, sanitization protocols, cross-contamination prevention.') }}
                 </x-welcome.card-feature>
 
                 <x-welcome.card-feature image="{{ asset('img/ai_quality_evaluation.png') }}"
-                    class="min-w-[min(30rem,75vw)]">
+                    class="">
                     {{ __('Spectral and visual analysis of ingredients and plating to ensure absolute consistency.') }}
                 </x-welcome.card-feature>
 
                 <x-welcome.card-feature image="{{ asset('img/ai_skill_assessment.png') }}"
-                    class="min-w-[min(30rem,75vw)]">
+                    class="">
                     {{ __('Kinematic tracking of culinary techniques, knife skills, and timing across complex recipes.') }}
                 </x-welcome.card-feature>
             </div>
@@ -255,7 +258,7 @@
         id="research">
         <div class="flex flex-col items-center justify-center px-[5%] gap-4 max-w-full">
 
-            <div class="text-[2em] font-['Zilla_Slab'] font-extrabold">
+            <div class="text-[2.5em] font-['Zilla_Slab'] font-extrabold">
                 {{ __('Real world applications across the entire gastronomic process') }}
             </div>
 
@@ -297,16 +300,16 @@
 
                 <x-welcome.card-black img="{{ asset('img/ip.png') }}">
                     <x-slot:title>
-                        {{  _('Strict protocols for IP') }}
+                        {{ __('Strict protocols for IP') }}
                     </x-slot:title>
-                    {{  _('Networked collaborative models with strict protocols to protect intellectual property in high-end gastronomy.') }}
+                    {{ __('Networked collaborative models with strict protocols to protect intellectual property in high-end gastronomy.') }}
                 </x-welcome.card-black>
 
                 <x-welcome.card-black img="{{ asset('img/model.png') }}">
                     <x-slot:title>
-                        {{  _('Unified Generative Models') }}
+                        {{  __('Unified Generative Models') }}
                     </x-slot:title>
-                    {{  _('Evolution towards multimodal architectures bridging explicit culinary rules with generative AI for operational robustness.') }}
+                    {{  __('Evolution towards multimodal architectures bridging explicit culinary rules with generative AI for operational robustness.') }}
                 </x-welcome.card-black>
             </div>
 
@@ -317,10 +320,10 @@
         <div class="flex flex-col items-center justify-center gap-4 max-w-full">
             <div class="flex flex-col items-center px-6 gap-4">
                 <div class="text-[2em] font-['Zilla_Slab'] font-extrabold">
-                    {{ _('Applied Research') }}
+                    {{ __('Applied Research') }}
                 </div>
                 <div class="font-['Zilla_Slab'] text-xl">
-                    {{ _('Bridging the gap between empirical gastronomy and computational perception to scale world-class culinary education globally.') }}
+                    {{ __('Bridging the gap between empirical gastronomy and computational perception to scale world-class culinary education globally.') }}
                 </div>
 
                 <div class="flex gap-5 flex-wrap justify-center">
@@ -328,13 +331,13 @@
                         <div class="flex-1 flex flex-col items-center gap-2 text-xl">
                             <div class="size-28 gradient-mask" style="--mask-image: url('{{ asset('img/eye.png') }}')">
                             </div>
-                            {{ _('Input') }}
+                            {{ __('Input') }}
                         </div>
 
                         <div class="flex-1 flex flex-col items-center gap-2 text-xl">
                             <div class="size-28 gradient-mask"
                                 style="--mask-image: url('{{ asset('img/braain.png') }}')"></div>
-                            {{ _('Model') }}
+                            {{ __('Model') }}
                         </div>
                     </div>
                     <div class="flex gap-5">
@@ -342,137 +345,134 @@
                         <div class="flex-1 flex flex-col items-center gap-2 text-xl">
                             <div class="size-28 gradient-mask"
                                 style="--mask-image: url('{{ asset('img/insightengine.png') }}')"></div>
-                            {{ _('Insight') }}
+                            {{ __('Insight') }}
                         </div>
 
                         <div class="flex-1 flex flex-col items-center gap-2 text-xl">
                             <div class="size-28 gradient-mask" style="--mask-image: url('{{ asset('img/hand.png') }}')">
                             </div>
-                            {{ _('Action') }}
+                            {{ __('Action') }}
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="max-w-full overflow-x-scroll flex gap-5 px-[12.5%] center-scroll scrollbar-hidden">
-                <x-welcome.card-black class="min-w-[min(40rem,75vw)] items-start">
+
+
+            <div
+                class="max-w-full overflow-x-scroll flex gap-5 px-[12.5%] center-scroll scrollbar-hidden min-h-[15rem] sm:max-h-[calc(100vh-4rem-22rem)]">
+                <x-welcome.card-black class="min-w-[min(40rem,75vw)] items-start fit-width">
                     <x-slot:title>
                         {{ __('AI-Powered Uniform Compliance System') }}
                     </x-slot:title>
-                    <div class="mb-2 text-base">
-                        {{ __('Digitizes subjective culinary grading into objective quantitative metrics by mapping student plating against baseline master chef executions.') }}
-                    </div>
-
-                    <div class="flex gap-4 mb-2 text-base">
-                        <div>
-                            {{ __('How It Works') }}
-                            <ul class="list-disc pl-6">
-                                <li>
-                                    {{ __('Data: Edge-device video feeds via a QR deployment application.') }}
-                                </li>
-                                <li>
-                                    {{ __('Model: Object detection architecture following CRISP-DM methodology.') }}
-                                </li>
-                                <li>
-                                    {{ __('Output: Real-time alerts identifying hat, jacket, apron, and pants.') }}
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div>
-                            {{ __('Value Generated') }}
-                            <ul class="list-disc pl-6">
-                                <li>
-                                    {{ __('Drastic reduction of manual oversight and inspection time.') }}
-                                </li>
-                                <li>
-                                    {{ __('Unbiased operational standardization in hygiene safety.') }}
-                                </li>
-                            </ul>
+                    <div class="mb-2 text-base flex flex-col">
+                        {{ __('Automates daily kitchen inspections by visually verifying formal culinary attire, ensuring absolute adherence to hygiene protocols.') }}
+                        <div class="flex gap-4 text-base min-h-0">
+                            <div class="flex flex-col flex-1">
+                                {{ __('How It Works') }}
+                                <ul class="list-disc pl-6 flex-1 min-h-0">
+                                    <li>
+                                        {{ __('Data: Edge-device video feeds via a QR deployment application.') }}
+                                    </li>
+                                    <li>
+                                        {{ __('Model: Object detection architecture following CRISP-DM methodology.') }}
+                                    </li>
+                                    <li>
+                                        {{ __('Output: Real-time alerts identifying hat, jacket, apron, and pants.') }}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="flex flex-col flex-1">
+                                {{ __('Value Generated') }}
+                                <ul class="list-disc pl-6">
+                                    <li>
+                                        {{ __('Drastic reduction of manual oversight and inspection time.') }}
+                                    </li>
+                                    <li>
+                                        {{ __('Unbiased operational standardization in hygiene safety.') }}
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="text-base">
-                        {{ __('Scientific Evidence: Validated in field tests achieving ~85–86% precision across diverse culinary uniform items (Castillo-Ortiz et al., 2024a).') }}
+                        {{ __('Scientific Evidence: Demonstrates rigorous computational skill transfer evaluation, though sensitive to baseline image quality variations (Castillo-Ortiz et al., 2024b).') }}
                     </div>
                 </x-welcome.card-black>
 
-                <x-welcome.card-black class="min-w-[min(40rem,75vw)] items-start">
+                <x-welcome.card-black class="min-w-[min(40rem,75vw)] items-start fit-width">
                     <x-slot:title>
                         {{ __('Culinary Skill Transfer Intelligence Engine') }}
                     </x-slot:title>
-                    <div class="mb-2 text-base">
+                    <div class="mb-2 text-base flex flex-col">
                         {{ __('Digitizes subjective culinary grading into objective quantitative metrics by mapping student plating against baseline master chef executions.') }}
-                    </div>
-
-                    <div class="flex gap-4 mb-2 text-base">
-                        <div>
-                            {{ __('How It Works') }}
-                            <ul class="list-disc pl-6">
-                                <li>
-                                    {{ __('Data: High-resolution standardized plating imagery.') }}
-                                </li>
-                                <li>
-                                    {{ __('Model: VGG-16 Deep Convolutional Neural Networks (CNNs).') }}
-                                </li>
-                                <li>
-                                    {{ __('Output: Euclidean distance, cosine similarity, and perceptual loss scores.') }}
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div>
-                            {{ __('Value Generated') }}
-                            <ul class="list-disc pl-6">
-                                <li>
-                                    {{ __('Objective, quantifiable evaluation of culinary performance.') }}
-                                </li>
-                                <li>
-                                    {{ __('Global scalability for culinary education.') }}
-                                </li>
-                            </ul>
+                        <div class="flex gap-4 text-base min-h-0">
+                            <div class="flex flex-col flex-1">
+                                {{ __('How It Works') }}
+                                <ul class="list-disc pl-6 flex-1 min-h-0">
+                                    <li>
+                                        {{ __('Data: High-resolution standardized plating imagery.') }}
+                                    </li>
+                                    <li>
+                                        {{ __('Model: VGG-16 Deep Convolutional Neural Networks (CNNs).') }}
+                                    </li>
+                                    <li>
+                                        {{ __('Output: Euclidean distance, cosine similarity, and perceptual loss scores.') }}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="flex flex-col flex-1">
+                                {{ __('Value Generated') }}
+                                <ul class="list-disc pl-6">
+                                    <li>
+                                        {{ __('Objective, quantifiable evaluation of culinary performance.') }}
+                                    </li>
+                                    <li>
+                                        {{ __('Global scalability for culinary education.') }}
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="text-base">
                         {{ __('Scientific Evidence: Validated in field tests achieving ~85–86% precision across diverse culinary uniform items (Castillo-Ortiz et al., 2024a).') }}
                     </div>
                 </x-welcome.card-black>
-                <x-welcome.card-black class="min-w-[min(40rem,75vw)] items-start">
+
+                <x-welcome.card-black class="min-w-[min(40rem,75vw)] items-start fit-width">
                     <x-slot:title>
                         {{ __('Smart Kitchen Vision Systems') }}
                     </x-slot:title>
-                    <div class="mb-2 text-base">
+                    <div class="mb-2 text-base flex flex-col">
                         {{ __('An integrated spatial computing network that monitors, anticipates, and orchestrates the professional kitchen floor.') }}
-                    </div>
-
-                    <div class="flex gap-4 mb-2 text-base">
-                        <div>
-                            {{ __('How It Works') }}
-                            <ul class="list-disc pl-6">
-                                <li>
-                                    {{ __('Data: Multimodal inputs from IoT edge nodes and optical sensors.') }}
-                                </li>
-                                <li>
-                                    {{ __('Model: Fused object detection and semantic segmentation pipelines.') }}
-                                </li>
-                                <li>
-                                    {{ __('Output: Centralized dashboard for kitchen automation & safety.') }}
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div>
-                            {{ __('Value Generated') }}
-                            <ul class="list-disc pl-6">
-                                <li>
-                                    {{ __('Frictionless automation of standard back-of-house processes.') }}
-                                </li>
-                                <li>
-                                    {{ __('Industrial scalability from educational labs to enterprise hospitality.') }}
-                                </li>
-                            </ul>
+                        <div class="flex gap-4 text-base min-h-0">
+                            <div class="flex flex-col flex-1">
+                                {{ __('How It Works') }}
+                                <ul class="list-disc pl-6 flex-1 min-h-0">
+                                    <li>
+                                        {{ __('Data: Multimodal inputs from IoT edge nodes and optical sensors.') }}
+                                    </li>
+                                    <li>
+                                        {{ __('Model: Fused object detection and semantic segmentation pipelines.') }}
+                                    </li>
+                                    <li>
+                                        {{ __('Output: Centralized dashboard for kitchen automation & safety.') }}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="flex flex-col flex-1">
+                                {{ __('Value Generated') }}
+                                <ul class="list-disc pl-6">
+                                    <li>
+                                        {{ __('Frictionless automation of standard back-of-house processes.') }}
+                                    </li>
+                                    <li>
+                                        {{ __('Industrial scalability from educational labs to enterprise hospitality.') }}
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-
                     <div class="text-base">
                         {{ __('Scientific Evidence: Integrates the foundations of uniform compliance (Castillo-Ortiz et al., 2024a) and quality evaluation (Castillo-Ortiz et al., 2024b) into a unified ambient operating system.') }}
                     </div>
@@ -507,12 +507,12 @@
                     {{ __('Students') }}
                 </x-slot:title>
 
-                {{ __('Undergraduate and postgraduate positions for those passionate about integrating ML with culinary arts.') }}
+                {{ __('Research projects for undergraduate and postgraduate students passionate about integrating artificial intelligence with culinary arts.') }}
 
                 <ul class="mt-4 list-disc pl-5">
                     <li>{{ __('NVIDIA certifications & training') }}</li>
-                    <li>{{ __('Real-world AI deployment pipeline') }}</li>
-                    <li>{{ __('Thesis supervision') }}</li>
+                    <li>{{ __('Development of industry-focused solutions powered by artificial intelligence') }}</li>
+                    <li>{{ __('Undergraduate and postgraduate thesis supervision') }}</li>
                 </ul>
 
                 <x-slot:button>
@@ -533,7 +533,7 @@
                 </ul>
 
                 <x-slot:button>
-                    {{ __('View open positions') }}
+                    {{ __('Explore possibilities') }}
                 </x-slot:button>
             </x-welcome.card-apply>
 
@@ -542,7 +542,7 @@
                     {{ __('Industry Partners') }}
                 </x-slot:title>
 
-                {{ __('Culinary institutions, ghost kitchens, and tech giants looking to deploy our systems or collaborate.') }}
+                {{ __('Culinary institutions, food and beverage service centers, restaurants, fast-food chains, and technology companies interested in deploying our systems or collaborating.') }}
 
                 <ul class="mt-4 list-disc pl-5">
                     <li>{{ __('Pilot program integration') }}</li>
@@ -603,19 +603,23 @@
 
     <x-drawer id="drawer-menu" style="--width:45rem;">
         <div class="flex flex-col gap-2">
-            <a href="#about" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700" onclick="closeDrawer()">
+            <a href="#about" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700"
+                onclick="closeDrawer()">
                 {{ __('What we do') }}
             </a>
 
-            <a href="#research" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700" onclick="closeDrawer()">
+            <a href="#research" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700"
+                onclick="closeDrawer()">
                 {{ __('Research areas') }}
             </a>
 
-            <a href="#projects" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700" onclick="closeDrawer()">
+            <a href="#projects" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700"
+                onclick="closeDrawer()">
                 {{ __('Projects') }}
             </a>
 
-            <a href="#opportunities" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700" onclick="closeDrawer()">
+            <a href="#opportunities" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700"
+                onclick="closeDrawer()">
                 {{ __('Opportunities') }}
             </a>
 
@@ -638,7 +642,7 @@
                     <a href="{{ url('/lang/es') }}" class="block rounded-xl px-4 py-2 text-sm hover:bg-zinc-700">
                         🇲🇽 {{ __('Español') }}
                     </a>
-                </x-dropdown> 
+                </x-dropdown>
             </div>
         </div>
     </x-drawer>
@@ -1370,12 +1374,6 @@
                 });
             });
         }
-
-
-
-
-
-
     </script>
 
     <script>
@@ -1405,6 +1403,69 @@
                     menu.classList.add('hidden');
                 }
             });
+        });
+    </script>
+
+    <script>
+        function fitWidthToHeight(selector) {
+            function apply(el) {
+                el.style.minWidth = '';
+                if (window.innerWidth < 640) return;
+                let safety = 0;
+                let limit = 1000;
+
+                let applies = hasOverflowingChild(el) || (el.scrollHeight > el.clientHeight);
+                if (!hasOverflowingChild(el)) {
+                    function condition(el) { return (el.scrollHeight > el.clientHeight) }
+                }
+                else {
+                    function condition(el) { return hasOverflowingChild(el) }
+                }
+                //el.style.background = '';
+                while (
+                    condition(el)
+                    //(el.scrollHeight > el.offsetHeight)
+                    && safety < limit) {
+                    el.style.minWidth = `${(parseFloat(el.style.minWidth) || el.scrollWidth) + 16}px`;
+                    safety++;
+                    //el.style.background = '#00ffff44';
+                }
+                if (safety >= limit) {
+                    //el.style.background = '#ff00ff44';
+                    el.style.minWidth = `min(100vw, ${el.style.minWidth || '0px'})`;
+                }
+                /*
+                if (hasOverflowingChild(el)) {
+                    el.style.background = '#ffff0044';
+                }*/
+
+                //el.querySelectorAll('*').forEach(apply);
+                centerScroll();
+            }
+            document.querySelectorAll(selector).forEach(el => { apply(el); });
+        }
+        function hasOverflowingChild(el) {
+            return [...el.children].some(child => {
+                const r1 = child.getBoundingClientRect();
+                const r2 = el.getBoundingClientRect();
+
+                return (
+                    r1.right > r2.right ||
+                    r1.bottom > r2.bottom ||
+                    r1.left < r2.left ||
+                    r1.top < r2.top
+                );
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fitWidthToHeight('.fit-width');
+            window.addEventListener('resize', () => {
+                fitWidthToHeight('.fit-width');
+            });
+            setTimeout(() => {
+                fitWidthToHeight('.fit-width');
+            }, 1);
         });
     </script>
 </body>
