@@ -10,7 +10,7 @@ function createSNoise({
   directionY = -1.0,
   timeScale = 1,
 }) {
-  zoom *= 0.1; 
+  zoom *= 0.1;
   return `
         snoise(vec3(
             (st.x * 1. / (${glslFloat(scaleX)} * ${glslFloat(zoom)})) + (time * ${glslFloat(directionX)} * ${glslFloat(timeScale)}),
@@ -49,12 +49,10 @@ function createBands({
 }
 
 let gradientMap = {
-  0: '#0c032b',
-  40: '#3f3f8f',
-  70: '#8dccff',
-  100: '#00ffff'
+  0: '#d45800',
+  50: '#9c340e',
+  100: '#ffaa50'
 }
-
 
 function hexToRgb(hex) {
   hex = hex.replace('#', '');
@@ -74,23 +72,57 @@ function glslFloat(value) {
 
 let fragmentMain = `
     vec2 st = vUv;
+    float y = st.y;
+    float x = st.x;
 
-    float noise =
-      ${createSNoise({ zoom: 2, scaleX: 1, scaleY: 1, directionY: -1, timeScale: 0.1 })} * 0.7 +
-      ${createSNoise({ zoom: 1, scaleX: 1, scaleY: 1, directionY: -1, timeScale: 0.1 })} * 0.3;
 
-    noise = noise * 0.5 + 0.5;
+    float noise1 =
+      ${createSNoise({ zoom: 8, scaleX: 1, scaleY: 1, directionY: -3, timeScale: 0.02 })} * 0.7 +
+      ${createSNoise({ zoom: 5, scaleX: 1, scaleY: 1, directionY: -3, timeScale: 0.02 })} * 0.3;
 
-    float verticalFade = 1.0 - smoothstep(0.4, 1.0, st.y);
-    float bottomMask = 1.0 - smoothstep(0.0, 0.3, st.y);
-    noise =  clamp(noise + bottomMask, 0.0, 1.0);
-    noise *= verticalFade;
+      
+    noise1 = noise1 * 0.5 + 0.5;
+     
 
-    noise = smoothstep(0.2, 0.8, noise);
+    float shape = noise1;
+    shape = pow(shape, 0.8);
 
-    float final = noise;
-    gl_FragColor = vec4(gradientMap(final), 1.0);    
-    `
+    float s1 = smoothstep(0.35, 0.75, shape);
+    float density = max(s1, pow(1.0 - vUv.y, 1.0));
+
+    float layer1 = density; 
+    layer1 = layer1;
+
+    layer1 *= .7; 
+
+
+    float noise2 = snoise(vec3(vUv.x * 3.0,vUv.y * 1.5,time * 0.2));
+
+    noise2 = noise2 * 0.5 + 0.5;
+
+
+    float warp =  ${createSNoise({ zoom: 6, scaleX: 0.4, directionX:0.5, scaleY: 1,timeScale: 0.2 })} * 0.5 + 0.5;
+    float warpedY = vUv.y + (warp - 0.5) * 0.2;
+    float lineY = pow(mod(time * 0.1, 1.2) , 2.5) -0.2;
+    float n = ${createSNoise({ zoom: 6, scaleX: 0.12, scaleY: 3,timeScale: 0.2 })} * 0.5 + 0.5;
+    float centerDist = smoothstep(0.0, 0.5, abs(vUv.x - 0.5) * 2.0); 
+    float thickness = 0.01 * n * mix(0.3, 1.5, centerDist);
+    float warpedLineY = lineY + (n - 0.5) * 0.08; // deform the line position
+    float d = abs(warpedY - warpedLineY);
+    float line = 1.0 - smoothstep( thickness, thickness + 0.01, d );
+
+    float layer2 = line;
+    layer2 *= 0.8;
+    layer2 *= max(0.1,smoothstep(0.2, 0.9, vUv.y));
+    float crt = sin(gl_FragCoord.x * 3.14159);
+    layer2 *= 1.0 - crt;
+
+    float final = layer1 ;//+ layer2;
+    final *= 1.0 - crt*.5;
+    
+
+    gl_FragColor = vec4(gradientMap(final), 1.0);
+`;
 
 let Noise3D = `
 vec3 mod289(vec3 x) {
@@ -237,16 +269,13 @@ const shaders = {
   `
 };
 
-const container = document.body;
+const container = document.querySelector('.opportunities');
 
-let width = window.innerWidth;
-let height = window.innerHeight;
+let width = container.offsetWidth;
+let height = container.offsetHeight;
 
 const scene = new THREE.Scene();
 
-/**
- * IMPORTANT: NO PERSPECTIVE CAMERA
- */
 const camera = new THREE.OrthographicCamera(
   -1, 1,
   1, -1,
@@ -260,14 +289,17 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(width, height, false);
+
 container.appendChild(renderer.domElement);
 
-renderer.domElement.className =
-  "fixed inset-0 w-full h-full pointer-events-none z-[-1]";
+renderer.domElement.className =  "absolute inset-0 w-full h-full pointer-events-none opacity-[50%]";
 
 /**
- * FULLSCREEN QUAD
+ * IMPORTANT:
+ * container must be relative
  */
+container.classList.add('relative');
+
 const geometry = new THREE.PlaneGeometry(2, 2);
 
 const uniforms = {
@@ -280,18 +312,16 @@ const material = new THREE.ShaderMaterial({
   vertexShader: shaders.vertex,
   fragmentShader: shaders.fragment,
   depthTest: false,
-  depthWrite: false
+  depthWrite: false,
+  transparent: true
 });
 
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
-/**
- * SINGLE SOURCE OF TRUTH RESIZE
- */
 function onResize() {
-  width = window.innerWidth;
-  height = window.innerHeight;
+  width = container.offsetWidth;
+  height = container.offsetHeight;
 
   renderer.setSize(width, height, false);
 
@@ -300,12 +330,14 @@ function onResize() {
 
 window.addEventListener("resize", onResize);
 
+const startTime = Date.now();
 
-startTime = new Date().getTime()
 function render() {
-  var now = new Date().getTime();
-  uniforms.time.value = (now - startTime) / 1000; 
-  requestAnimationFrame(render);
+  uniforms.time.value = (Date.now() - startTime) / 1000;
+
   renderer.render(scene, camera);
+
+  requestAnimationFrame(render);
 }
+
 render();

@@ -227,7 +227,7 @@
         </div>
     </section>
 
-    <section class="min-h-screen py-9 flex-center flex-col pt-[5rem]" id="about">
+    <section class="min-h-screen py-9 flex-center flex-col pt-[5rem] bg-[var(--bg)]" id="about">
         <div class="flex flex-col items-center justify-center gap-9 max-w-full">
             <div class="text-center text-2xl px-[5%] md:px-[20%]">
                 <div class="text-[2em] font-['Zilla_Slab'] font-extrabold mb-4 ">{{ __('Transforming Precision.') }}
@@ -236,7 +236,7 @@
             </div>
 
             <div
-                class="flex text-violet-50 text-lg max-w-full overflow-x-scroll gap-5 px-[12.5%] center-scroll scrollbar-hidden min-h-[10rem] max-h-[calc(100vh-19rem)]">
+                class="flex text-violet-50 text-lg max-w-full overflow-x-scroll gap-5 px-[12.5%] center-scroll scrollbar-hidden min-h-[16rem] lg:min-h-[27rem] max-h-[calc(100vh-19rem)]">
                 <x-welcome.card-feature image="{{ asset('img/ai_hygiene_monitoring.png') }}" class="">
                     {{ __('Real-time tracking of uniforms, sanitization protocols, cross-contamination prevention.') }}
                 </x-welcome.card-feature>
@@ -358,7 +358,7 @@
 
 
             <div
-                class="max-w-full overflow-x-scroll flex gap-5 px-[12.5%] center-scroll scrollbar-hidden min-h-[15rem] sm:max-h-[calc(100vh-4rem-22rem)]">
+                class="max-w-full overflow-x-scroll flex gap-5 px-[12.5%] center-scroll scrollbar-hidden min-h-[16rem] sm:max-h-[calc(100vh-4rem-22rem)]">
                 <x-welcome.card-black class="min-w-[min(40rem,75vw)] items-start fit-width">
                     <x-slot:title>
                         {{ __('AI-Powered Uniform Compliance System') }}
@@ -486,79 +486,79 @@
 
         </div>
     </section>
+    <div id="opportunities" class="mb-[4rem] mt-[-4rem]"></div>
+    <section class="min-h-[calc(100vh-4rem)] relative bg-orange-900 opportunities">
 
-    <section id="opportunities"
-        class="min-h-screen pt-[5rem] py-9 px-[max(2rem,5%)] flex-center flex-col text-center
-        {{-- 
-        bg-zinc-900
-        bg-gradient-to-b from-[#ff590044] to-[#ff590088] 
-         --}} 
-        ">
+        <div
+            class="py-9 px-[max(2rem,5%)] flex-center flex-col text-center min-h-[calc(100vh-4rem)] w-full relative inset-0 z-10">
 
-        <div class="text-5xl font-['Zilla_Slab'] font-extrabold mb-4 ">
-            {{ __('Join the frontier') }}
+            <div class="text-5xl font-['Zilla_Slab'] font-extrabold mb-4 ">
+                {{ __('Join the frontier') }}
+            </div>
+
+            <div class="text-3xl mb-4 font-light">
+                {{ __('We are actively seeking brilliant minds to help build the future of gastronomy.') }}
+            </div>
+
+            <div class="flex gap-4 flex-col md:flex-row">
+
+                <x-welcome.card-apply modalid="modal-apply-student">
+                    <x-slot:title>
+                        {{ __('Students') }}
+                    </x-slot:title>
+
+                    {{ __('Research projects for undergraduate and postgraduate students passionate about integrating artificial intelligence with culinary arts.') }}
+
+                    <ul class="mt-4 list-disc pl-5">
+                        <li>{{ __('NVIDIA certifications & training') }}</li>
+                        <li>{{ __('Development of industry-focused solutions powered by artificial intelligence') }}
+                        </li>
+                        <li>{{ __('Undergraduate and postgraduate thesis supervision') }}</li>
+                    </ul>
+
+                    <x-slot:button>
+                        {{ __('Apply as student') }}
+                    </x-slot:button>
+                </x-welcome.card-apply>
+                <x-welcome.card-apply modalid="modal-apply-researcher">
+                    <x-slot:title>
+                        {{ __('Researchers') }}
+                    </x-slot:title>
+
+                    {{ __('Post-docs and PhD candidates driving novel computer vision architectures in unconstrained environments.') }}
+
+                    <ul class="mt-4 list-disc pl-5">
+                        <li>{{ __('Compute cluster access (A100s)') }}</li>
+                        <li>{{ __('Conference publications (CVPR, CHI)') }}</li>
+                        <li>{{ __('Prototyping budget') }}</li>
+                    </ul>
+
+                    <x-slot:button>
+                        {{ __('Explore possibilities') }}
+                    </x-slot:button>
+                </x-welcome.card-apply>
+
+                <x-welcome.card-apply modalid="modal-apply-industry">
+                    <x-slot:title>
+                        {{ __('Industry Partners') }}
+                    </x-slot:title>
+
+                    {{ __('Culinary institutions, food and beverage service centers, restaurants, fast-food chains, and technology companies interested in deploying our systems or collaborating.') }}
+
+                    <ul class="mt-4 list-disc pl-5">
+                        <li>{{ __('Pilot program integration') }}</li>
+                        <li>{{ __('Custom model tuning') }}</li>
+                        <li>{{ __('Licensing opportunities') }}</li>
+                    </ul>
+
+                    <x-slot:button>
+                        {{ __('Partner with us') }}
+                    </x-slot:button>
+                </x-welcome.card-apply>
+
+            </div>
         </div>
 
-        <div class="text-3xl mb-4 font-light">
-            {{ __('We are actively seeking brilliant minds to help build the future of gastronomy.') }}
-        </div>
-
-        <div class="flex gap-4 flex-col md:flex-row">
-
-            <x-welcome.card-apply modalid="modal-apply-student">
-                <x-slot:title>
-                    {{ __('Students') }}
-                </x-slot:title>
-
-                {{ __('Research projects for undergraduate and postgraduate students passionate about integrating artificial intelligence with culinary arts.') }}
-
-                <ul class="mt-4 list-disc pl-5">
-                    <li>{{ __('NVIDIA certifications & training') }}</li>
-                    <li>{{ __('Development of industry-focused solutions powered by artificial intelligence') }}</li>
-                    <li>{{ __('Undergraduate and postgraduate thesis supervision') }}</li>
-                </ul>
-
-                <x-slot:button>
-                    {{ __('Apply as student') }}
-                </x-slot:button>
-            </x-welcome.card-apply>
-            <x-welcome.card-apply modalid="modal-apply-researcher">
-                <x-slot:title>
-                    {{ __('Researchers') }}
-                </x-slot:title>
-
-                {{ __('Post-docs and PhD candidates driving novel computer vision architectures in unconstrained environments.') }}
-
-                <ul class="mt-4 list-disc pl-5">
-                    <li>{{ __('Compute cluster access (A100s)') }}</li>
-                    <li>{{ __('Conference publications (CVPR, CHI)') }}</li>
-                    <li>{{ __('Prototyping budget') }}</li>
-                </ul>
-
-                <x-slot:button>
-                    {{ __('Explore possibilities') }}
-                </x-slot:button>
-            </x-welcome.card-apply>
-
-            <x-welcome.card-apply modalid="modal-apply-industry">
-                <x-slot:title>
-                    {{ __('Industry Partners') }}
-                </x-slot:title>
-
-                {{ __('Culinary institutions, food and beverage service centers, restaurants, fast-food chains, and technology companies interested in deploying our systems or collaborating.') }}
-
-                <ul class="mt-4 list-disc pl-5">
-                    <li>{{ __('Pilot program integration') }}</li>
-                    <li>{{ __('Custom model tuning') }}</li>
-                    <li>{{ __('Licensing opportunities') }}</li>
-                </ul>
-
-                <x-slot:button>
-                    {{ __('Partner with us') }}
-                </x-slot:button>
-            </x-welcome.card-apply>
-
-        </div>
 
     </section>
 
