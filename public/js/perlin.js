@@ -10,8 +10,7 @@ function createSNoise({
   directionY = -1.0,
   timeScale = 1,
 }) {
-  zoom *= 0.1;
-  timeScale *= 0.1;
+  zoom *= 0.1; 
   return `
         snoise(vec3(
             (st.x * 1. / (${glslFloat(scaleX)} * ${glslFloat(zoom)})) + (time * ${glslFloat(directionX)} * ${glslFloat(timeScale)}),
@@ -49,34 +48,8 @@ function createBands({
   return code;
 }
 
-function createGradientMap(stops = {}) {
-  const sortedStops = Object.entries(stops).map(([k, v]) => ({
-    position: Number(k) / 100,
-    color: hexToRgb(v)
-  })).sort((a, b) => a.position - b.position);
-
-  let glsl = `vec3 gradientMap(float t) { t = clamp(t, 0.0, 1.0);`;
-
-  for (let i = 0; i < sortedStops.length - 1; i++) {
-    const current = sortedStops[i];
-    const next = sortedStops[i + 1];
-    const start = glslFloat(current.position);
-    const end = glslFloat(next.position);
-    const range = glslFloat(next.position - current.position);
-    const c1 = `vec3(${current.color.r}, ${current.color.g}, ${current.color.b})`;
-    const c2 = `vec3(${next.color.r}, ${next.color.g}, ${next.color.b})`;
-    const condition = i === 0 ? `if(t <= ${end})` : `else if(t <= ${end})`;
-    glsl += `${condition} { return mix(${c1}, ${c2}, (t - ${start}) / ${range}); }`;
-  }
-
-  const last = sortedStops[sortedStops.length - 1];
-
-  glsl += `return vec3(${last.color.r}, ${last.color.g}, ${last.color.b});}`;
-  return glsl;
-}
-
 let gradientMap = {
-  0: '#f94b00',
+  0: '#0c032b',
   40: '#3f3f8f',
   70: '#8dccff',
   100: '#00ffff'
@@ -99,25 +72,25 @@ function glslFloat(value) {
   return Number.isInteger(value) ? `${value}.` : `${value}`;
 }
 
-let voidMain = `
-  vec2 st = gl_FragCoord.xy / resolution.xy;
+let fragmentMain = `
+    vec2 st = vUv;
 
-  st.x *= resolution.x / resolution.y;
+    float noise =
+      ${createSNoise({ zoom: 2, scaleX: 1, scaleY: 1, directionY: -1, timeScale: 0.1 })} * 0.7 +
+      ${createSNoise({ zoom: 1, scaleX: 1, scaleY: 1, directionY: -1, timeScale: 0.1 })} * 0.3;
 
-  float noise =
-    ${createSNoise({ zoom: .06, scaleX: 1.5, scaleY: 0.8, directionY: -0.4, timeScale: 0.3 })} * 0.7 +
-    ${createSNoise({ zoom: .03, scaleX: 0.8, scaleY: 2.0, directionY: -1.2, timeScale: 0.6 })} * 0.3;
-    noise = noise * 0.5 + 0.5; // normalize from -1..1 → 0..1
+    noise = noise * 0.5 + 0.5;
 
-
-    ${createBands({ noiseVar: 'noise', count: 10, thickness: 0.06, feather: 0.1, min: -0.3, max: 0.8, output: 'bands' })}
-
-    float verticalFade =	1.0 - smoothstep(0.6,1.0,st.y);
+    float verticalFade = 1.0 - smoothstep(0.4, 1.0, st.y);
+    float bottomMask = 1.0 - smoothstep(0.0, 0.3, st.y);
+    noise =  clamp(noise + bottomMask, 0.0, 1.0);
+    noise *= verticalFade;
 
     noise = smoothstep(0.2, 0.8, noise);
 
     float final = noise;
-    gl_FragColor = vec4(gradientMap(final), 1.0);`
+    gl_FragColor = vec4(gradientMap(final), 1.0);    
+    `
 
 let Noise3D = `
 vec3 mod289(vec3 x) {
@@ -212,95 +185,126 @@ float snoise(vec3 v)
   }
 `
 
-const shaders = {
-  fragment: `
+function createGradientMap(stops = {}) {
+  const sortedStops = Object.entries(stops).map(([k, v]) => ({
+    position: Number(k) / 100,
+    color: hexToRgb(v)
+  })).sort((a, b) => a.position - b.position);
 
-	uniform vec2 resolution;
-	uniform float time;
+  let glsl = `vec3 gradientMap(float t) { t = clamp(t, 0.0, 1.0);`;
 
-	${Noise3D}
-
-  ${createGradientMap(gradientMap)}
-	
-	float addColorStop(float noise, float start, float length) {
-		float distance = start - noise;
-		float fadeLength = 1.;
-
-		if(distance < 0.) {
-			distance *= -1.;
-		}
-
-		if(distance < length / 2.) { 
-			return 1.; 
-		}
-		else if (distance < length / 2. + fadeLength){
-			float fadeDist = fadeLength / (distance + length / 2.);
-			return fadeDist * 0.05;
-		}
-		else {
-			return 0.;
-		}
-	}
-
-  
-	void main() {
-  	${voidMain}
+  for (let i = 0; i < sortedStops.length - 1; i++) {
+    const current = sortedStops[i];
+    const next = sortedStops[i + 1];
+    const start = glslFloat(current.position);
+    const end = glslFloat(next.position);
+    const range = glslFloat(next.position - current.position);
+    const c1 = `vec3(${current.color.r}, ${current.color.g}, ${current.color.b})`;
+    const c2 = `vec3(${next.color.r}, ${next.color.g}, ${next.color.b})`;
+    const condition = i === 0 ? `if(t <= ${end})` : `else if(t <= ${end})`;
+    glsl += `${condition} { return mix(${c1}, ${c2}, (t - ${start}) / ${range}); }`;
   }
-`,
 
-  vertex: `	void main() { gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);	}`
+  const last = sortedStops[sortedStops.length - 1];
+
+  glsl += `return vec3(${last.color.r}, ${last.color.g}, ${last.color.b});}`;
+  return glsl;
 }
 
 
-const container = document.body
+const shaders = {
+  vertex: `
+    varying vec2 vUv;
 
-let width = container.offsetWidth,
-  height = container.offsetHeight,
-  currentTime = 0,
-  timeAddition = Math.random() * 1000
+    void main() {
+      vUv = uv;
+      gl_Position = vec4(position, 1.0);
+    }
+  `,
 
-const scene = new THREE.Scene(),
-  camera = new THREE.OrthographicCamera(width / - 2, width / 2, height / 2, height / - 2, 0, 100)
-renderer = new THREE.WebGLRenderer({ alpha: true }),
-  startTime = new Date().getTime()
+  fragment: `
+    varying vec2 vUv;
+    uniform vec2 resolution;
+    uniform float time;
 
-renderer.setSize(container.offsetWidth, container.offsetHeight)
-container.appendChild(renderer.domElement)
-renderer.domElement.className = 'fixed inset-0 w-full h-full pointer-events-none z-[-1]'
+    ${Noise3D}
 
+    ${createGradientMap(gradientMap)}
 
-let uniforms = {
-  time: { value: 1 + timeAddition },
-  resolution: { value: new THREE.Vector2(container.offsetWidth, container.offsetHeight) },
-  color1: { value: new THREE.Color('#e24f00') },
-  color2: { value: new THREE.Color('#913300') }
-}
+    void main() {
+      ${fragmentMain}
+    }
+  `
+};
 
-let shaderMaterial = new THREE.ShaderMaterial({
-  uniforms: uniforms,
-  vertexShader: shaders.vertex,
-  fragmentShader: shaders.fragment,
-  //blending:       THREE.AdditiveBlending,
-  depthTest: false,
-  transparent: true,
-  vertexColors: true
+const container = document.body;
+
+let width = window.innerWidth;
+let height = window.innerHeight;
+
+const scene = new THREE.Scene();
+
+/**
+ * IMPORTANT: NO PERSPECTIVE CAMERA
+ */
+const camera = new THREE.OrthographicCamera(
+  -1, 1,
+  1, -1,
+  0, 1
+);
+
+const renderer = new THREE.WebGLRenderer({
+  alpha: true,
+  antialias: true
 });
 
-let geometry = new THREE.PlaneGeometry(width, height, 32);
-let plane = new THREE.Mesh(geometry, shaderMaterial);
-scene.add(plane);
-plane.position.z = 0.5;
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(width, height, false);
+container.appendChild(renderer.domElement);
+
+renderer.domElement.className =
+  "fixed inset-0 w-full h-full pointer-events-none z-[-1]";
+
+/**
+ * FULLSCREEN QUAD
+ */
+const geometry = new THREE.PlaneGeometry(2, 2);
+
+const uniforms = {
+  time: { value: 0 },
+  resolution: { value: new THREE.Vector2(width, height) }
+};
+
+const material = new THREE.ShaderMaterial({
+  uniforms,
+  vertexShader: shaders.vertex,
+  fragmentShader: shaders.fragment,
+  depthTest: false,
+  depthWrite: false
+});
+
+const mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
+
+/**
+ * SINGLE SOURCE OF TRUTH RESIZE
+ */
+function onResize() {
+  width = window.innerWidth;
+  height = window.innerHeight;
+
+  renderer.setSize(width, height, false);
+
+  uniforms.resolution.value.set(width, height);
+}
+
+window.addEventListener("resize", onResize);
 
 
-camera.position.y = 0;
-camera.position.x = 0;
-camera.position.z = 100;
-
+startTime = new Date().getTime()
 function render() {
   var now = new Date().getTime();
-  currentTime = (now - startTime) / 1000;
-  uniforms.time.value = currentTime + timeAddition;
-
+  uniforms.time.value = (now - startTime) / 1000; 
   requestAnimationFrame(render);
   renderer.render(scene, camera);
 }
