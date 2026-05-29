@@ -24,7 +24,7 @@
         body {
             scrollbar-gutter: stable;
         }
-        
+
 
 
         :root {
@@ -235,19 +235,17 @@
                 {{ __('We develop state-of-the-art computer vision systems to augment human capability in professional kitchens and educational institutions.') }}
             </div>
 
-            <div class="flex text-violet-50 text-lg max-w-full overflow-x-scroll gap-5 px-[12.5%] center-scroll scrollbar-hidden min-h-[10rem] max-h-[calc(100vh-19rem)]">
-                <x-welcome.card-feature image="{{ asset('img/ai_hygiene_monitoring.png') }}"
-                    class="">
+            <div
+                class="flex text-violet-50 text-lg max-w-full overflow-x-scroll gap-5 px-[12.5%] center-scroll scrollbar-hidden min-h-[10rem] max-h-[calc(100vh-19rem)]">
+                <x-welcome.card-feature image="{{ asset('img/ai_hygiene_monitoring.png') }}" class="">
                     {{ __('Real-time tracking of uniforms, sanitization protocols, cross-contamination prevention.') }}
                 </x-welcome.card-feature>
 
-                <x-welcome.card-feature image="{{ asset('img/ai_quality_evaluation.png') }}"
-                    class="">
+                <x-welcome.card-feature image="{{ asset('img/ai_quality_evaluation.png') }}" class="">
                     {{ __('Spectral and visual analysis of ingredients and plating to ensure absolute consistency.') }}
                 </x-welcome.card-feature>
 
-                <x-welcome.card-feature image="{{ asset('img/ai_skill_assessment.png') }}"
-                    class="">
+                <x-welcome.card-feature image="{{ asset('img/ai_skill_assessment.png') }}" class="">
                     {{ __('Kinematic tracking of culinary techniques, knife skills, and timing across complex recipes.') }}
                 </x-welcome.card-feature>
             </div>
@@ -490,7 +488,12 @@
     </section>
 
     <section id="opportunities"
-        class="min-h-screen py-9 px-[max(2rem,5%)] bg-zinc-900 flex-center flex-col text-center bg-gradient-to-b from-[#ff590044] to-[#ff590088] pt-[5rem]">
+        class="min-h-screen pt-[5rem] py-9 px-[max(2rem,5%)] flex-center flex-col text-center
+        {{-- 
+        bg-zinc-900
+        bg-gradient-to-b from-[#ff590044] to-[#ff590088] 
+         --}} 
+        ">
 
         <div class="text-5xl font-['Zilla_Slab'] font-extrabold mb-4 ">
             {{ __('Join the frontier') }}
@@ -1468,6 +1471,9 @@
             }, 1);
         });
     </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="{{ asset('js/perlin.js') }}"></script>
 </body>
 
 </html>
