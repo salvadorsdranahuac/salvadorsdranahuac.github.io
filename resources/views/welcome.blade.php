@@ -472,7 +472,7 @@
                         </div>
                     </div>
                     <div class="text-base">
-                        {{ __('Scientific Evidence: Integrates the foundations of uniform compliance (Castillo-Ortiz et al., 2024a) and quality evaluation (Castillo-Ortiz et al., 2024b) into a unified ambient operating system.') }}
+                        {{ __('Scientific Evidence: Integrates the foundations of uniform compliance (Castillo-Ortiz et al., 2024a) and culinary products quality evaluation (Castillo-Ortiz et al., 2024b) into a unified ambient operating system.') }}
                     </div>
                 </x-welcome.card-black>
             </div>
