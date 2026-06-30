@@ -378,7 +378,7 @@ render();
     const FPS = 30;
 
     // ===== hero colours (composited over the video) ======================
-    const HERO_OPAQUE = 'rgb(16, 14, 17)';      // field between dots
+    const HERO_OPAQUE = 'rgb(32, 29, 33)';      // field between dots
     const HERO_HOLE   = 'rgba(0, 0, 0, 0.34)';  // inside dots
 
     // ===== section pattern (same grid, no video, dots are visible) =======
