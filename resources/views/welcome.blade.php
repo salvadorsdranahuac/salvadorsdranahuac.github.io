@@ -30,11 +30,13 @@
         :root {
             --bg: #FDFDFC;
             --text: #1b1b18;
+            --dot-color: rgba(27, 27, 24, 0.10);
         }
 
         .dark {
             --bg: #1b1b18;
             --text: white;
+            --dot-color: rgba(255, 255, 255, 0.07);
         }
 
         .flex-center {
@@ -71,6 +73,35 @@
             mask-repeat: no-repeat;
             mask-position: center;
             mask-size: contain;
+        }
+
+        /* Halftone dot mask: renders the video as ~25%-dense circles over black.
+           --gap = cell size, --dot = dot radius (~0.28 x gap -> ~25% coverage). */
+        .dot-mask {
+            --dot: 2px;
+            --coverage: 25;
+            --gap: calc(var(--dot) * sqrt(pi / (var(--coverage) / 100)));
+
+            --mask: radial-gradient(circle var(--dot) at center, #0000001b 72%, #00000036 100%);
+
+            -webkit-mask-image: var(--mask);
+            mask-image: var(--mask);
+
+            -webkit-mask-size: var(--gap) var(--gap);
+            mask-size: var(--gap) var(--gap);
+
+            -webkit-mask-repeat: repeat;
+            mask-repeat: repeat;
+        }
+
+        /* Inverted halftone: same dot grid as the hero, but the dots are the
+           visible marks (a tiled radial-gradient) over a transparent field.
+           --dot-bg-size = dot radius, --dot-bg-gap = spacing. */
+        .dot-bg {
+            --dot-bg-size: 1.5px;
+            --dot-bg-gap: 12px;
+            background-image: radial-gradient(circle var(--dot-bg-size) at center, var(--dot-color) 72%, transparent 100%);
+            background-size: var(--dot-bg-gap) var(--dot-bg-gap);
         }
 
         #research .card-black img {
@@ -201,12 +232,12 @@
         </button>
     </nav>
 
-    <section class="relative bg-violet-900 h-[calc(100vh-4rem)] flex flex-center text-center">
-        <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
-            <source src="{{ asset('video/epickitchens.mp4') }}" type="video/mp4">
+    <section class="relative bg-black h-[calc(100vh-4rem)] flex flex-center text-center">
+        <video id="heroVideo" autoplay muted loop playsinline
+            class="absolute inset-0 w-full h-full object-cover opacity-0 pointer-events-none">
+            <source src="{{ asset('video/GVL_banner.mp4') }}" type="video/mp4">
         </video>
-        <div class="absolute inset-0 bg-black/30" style="background-image: url('{{ asset('img/grid_neg.png') }}')">
-        </div>
+        <canvas id="heroDots" class="absolute inset-0 w-full h-full"></canvas>
 
         <div
             class="relative z-10 flex flex-col justify-between items-center gap-6 w-full h-[calc(100%-12rem)] mb-[6rem] px-[max(2rem,6vw)]">
@@ -227,8 +258,9 @@
         </div>
     </section>
 
-    <section class="min-h-screen py-9 flex-center flex-col pt-[5rem] bg-[var(--bg)]" id="about">
-        <div class="flex flex-col items-center justify-center gap-9 max-w-full">
+    <section class="relative overflow-hidden min-h-screen py-9 flex-center flex-col pt-[5rem]" id="about" style="background:#09080bd6">
+        <canvas id="sectionDots" class="absolute inset-0 w-full h-full pointer-events-none" style="z-index:0"></canvas>
+        <div class="relative z-10 flex flex-col items-center justify-center gap-9 max-w-full">
             <div class="text-center text-2xl px-[5%] md:px-[20%]">
                 <div class="text-[2em] font-['Zilla_Slab'] font-extrabold mb-4 ">{{ __('Transforming Precision.') }}
                 </div>
@@ -252,7 +284,7 @@
         </div>
     </section>
 
-    <section class="min-h-screen py-9 flex-center flex-col bg-gradient-to-b from-transparent to-[#281C3E] pt-[5rem]"
+    <section class="min-h-screen py-9 flex-center flex-col bg-gradient-to-b from-[#0c0b0d] to-[#281C3E] pt-[5rem]"
         id="research">
         <div class="flex flex-col items-center justify-center px-[5%] gap-4 max-w-full">
 
@@ -1474,6 +1506,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="{{ asset('js/perlin.js') }}"></script>
+
 </body>
 
 </html>
