@@ -21,15 +21,22 @@
             scroll-behavior: smooth;
         }
 
+        body {
+            scrollbar-gutter: stable;
+        }
+
+
 
         :root {
             --bg: #FDFDFC;
             --text: #1b1b18;
+            --dot-color: rgba(27, 27, 24, 0.10);
         }
 
         .dark {
             --bg: #1b1b18;
             --text: white;
+            --dot-color: rgba(255, 255, 255, 0.07);
         }
 
         .flex-center {
@@ -66,6 +73,35 @@
             mask-repeat: no-repeat;
             mask-position: center;
             mask-size: contain;
+        }
+
+        /* Halftone dot mask: renders the video as ~25%-dense circles over black.
+           --gap = cell size, --dot = dot radius (~0.28 x gap -> ~25% coverage). */
+        .dot-mask {
+            --dot: 2px;
+            --coverage: 25;
+            --gap: calc(var(--dot) * sqrt(pi / (var(--coverage) / 100)));
+
+            --mask: radial-gradient(circle var(--dot) at center, #0000001b 72%, #00000036 100%);
+
+            -webkit-mask-image: var(--mask);
+            mask-image: var(--mask);
+
+            -webkit-mask-size: var(--gap) var(--gap);
+            mask-size: var(--gap) var(--gap);
+
+            -webkit-mask-repeat: repeat;
+            mask-repeat: repeat;
+        }
+
+        /* Inverted halftone: same dot grid as the hero, but the dots are the
+           visible marks (a tiled radial-gradient) over a transparent field.
+           --dot-bg-size = dot radius, --dot-bg-gap = spacing. */
+        .dot-bg {
+            --dot-bg-size: 1.5px;
+            --dot-bg-gap: 12px;
+            background-image: radial-gradient(circle var(--dot-bg-size) at center, var(--dot-color) 72%, transparent 100%);
+            background-size: var(--dot-bg-gap) var(--dot-bg-gap);
         }
 
         #research .card-black img {
@@ -141,7 +177,7 @@
 
 <body class="bg-[var(--bg)] text-[var(--text)] min-h-screen">
     <nav
-        class="sticky top-0 z-50 w-screen border-gray-200 bg-[var(--bg)] dark:border-gray-700 flex h-16 justify-between gap-4 pr-4 sm:pr-6 lg:pr-8">
+        class="sticky top-0 z-50  border-gray-200 bg-[var(--bg)] dark:border-gray-700 flex h-16 justify-between gap-4 pr-4 sm:pr-6 lg:pr-8">
         <div class="h-16 w-[172px] flex items-center justify-center bg-orange-500 py-3 px-6">
             <img class="w-full h-full object-cover" src="img/logo_anahuacqueretaro.svg">
         </div>
@@ -168,7 +204,7 @@
     x-data="{}"
     class="relative inline-block"
     data-dropdown
-    id="dropdown-6a0df489476dc"
+    id="dropdown-6a45a0ca20abf"
 >
     
     <div data-dropdown-trigger>
@@ -208,12 +244,12 @@
         </button>
     </nav>
 
-    <section class="relative bg-violet-900 h-[calc(100vh-4rem)] flex flex-center text-center">
-        <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
-            <source src="img/epickitchens.mp4" type="video/mp4">
+    <section class="relative bg-black h-[calc(100vh-4rem)] flex flex-center text-center">
+        <video id="heroVideo" autoplay muted loop playsinline
+            class="absolute inset-0 w-full h-full object-cover opacity-0 pointer-events-none">
+            <source src="video/GVL_banner.mp4" type="video/mp4">
         </video>
-        <div class="absolute inset-0 bg-black/30" style="background-image: url('img/grid_neg.png')">
-        </div>
+        <canvas id="heroDots" class="absolute inset-0 w-full h-full"></canvas>
 
         <div
             class="relative z-10 flex flex-col justify-between items-center gap-6 w-full h-[calc(100%-12rem)] mb-[6rem] px-[max(2rem,6vw)]">
@@ -224,16 +260,17 @@
             </div>
 
             <div class="flex flex-col flex-wrap sm:flex-row gap-x-12 gap-y-4 text-3xl justify-center">
-                <button class="transition bg-orange-500 hover:bg-orange-600 text-white w-72 rounded-full font-light gradient p-3">
+                <button class="transition bg-orange-500 hover:bg-orange-600 text-white w-80 rounded-full font-light gradient p-3">
     Join the lab
-</button>                <button class="transition bg-slate-100 hover:bg-slate-200 text-slate-900 w-72 rounded-full font-light p-3">
+</button>                <button class="transition bg-slate-100 hover:bg-slate-200 text-slate-900 w-80 rounded-full font-light p-3">
     Explore research
 </button>            </div>
         </div>
     </section>
 
-    <section class="min-h-screen py-9 flex-center flex-col pt-[5rem]" id="about">
-        <div class="flex flex-col items-center justify-center gap-9 max-w-full">
+    <section class="relative overflow-hidden min-h-screen py-9 flex-center flex-col pt-[5rem]" id="about" style="background:#09080bd6">
+        <canvas id="sectionDots" class="absolute inset-0 w-full h-full pointer-events-none" style="z-index:0"></canvas>
+        <div class="relative z-10 flex flex-col items-center justify-center gap-9 max-w-full">
             <div class="text-center text-2xl px-[5%] md:px-[20%]">
                 <div class="text-[2em] font-['Zilla_Slab'] font-extrabold mb-4 ">Transforming Precision.
                 </div>
@@ -241,31 +278,39 @@
             </div>
 
             <div
-                class="flex text-violet-50 text-lg max-w-full overflow-x-scroll gap-5 px-[12.5%] center-scroll scrollbar-hidden">
-
-                <div class="lg:min-w-0 flex-1 p-6 bg-orange-800 rounded-3xl flex flex-row lg:flex-col items-center gap-3 min-w-[min(30rem,75vw)]">
-    <img class="rounded-3xl max-lg:max-h-40" src="img/ai_hygiene_monitoring.png" />
-
+                class="flex text-violet-50 text-lg max-w-full overflow-x-scroll gap-5 px-[12.5%] center-scroll scrollbar-hidden min-h-[16rem] lg:min-h-[27rem] max-h-[calc(100vh-19rem)]">
+                <div class="min-w-[min(30rem,75vw)] lg:min-w-[33rem] flex-1 p-6 bg-orange-800 rounded-3xl overflow-hidden flex flex-row lg:flex-col items-center gap-3">
+        <div class="rounded-3xl min-h-32  lg:min-h-[20rem] lg:w-full lg:flex-1 overflow-hidden">
+            <img class="w-full h-full pointer-events-none object-cover mt-[-15%] lg:mt-0" src="img/ai_hygiene_monitoring.png" />
+        </div>
+    <div class="lg:h-[3em]">
     Real-time tracking of uniforms, sanitization protocols, cross-contamination prevention.
+    </div>
 </div>
-                <div class="lg:min-w-0 flex-1 p-6 bg-orange-800 rounded-3xl flex flex-row lg:flex-col items-center gap-3 min-w-[min(30rem,75vw)]">
-    <img class="rounded-3xl max-lg:max-h-40" src="img/ai_quality_evaluation.png" />
-
+                <div class="min-w-[min(30rem,75vw)] lg:min-w-[33rem] flex-1 p-6 bg-orange-800 rounded-3xl overflow-hidden flex flex-row lg:flex-col items-center gap-3">
+        <div class="rounded-3xl min-h-32  lg:min-h-[20rem] lg:w-full lg:flex-1 overflow-hidden">
+            <img class="w-full h-full pointer-events-none object-cover mt-[-15%] lg:mt-0" src="img/ai_quality_evaluation.png" />
+        </div>
+    <div class="lg:h-[3em]">
     Spectral and visual analysis of ingredients and plating to ensure absolute consistency.
+    </div>
 </div>
-                <div class="lg:min-w-0 flex-1 p-6 bg-orange-800 rounded-3xl flex flex-row lg:flex-col items-center gap-3 min-w-[min(30rem,75vw)]">
-    <img class="rounded-3xl max-lg:max-h-40" src="img/ai_skill_assessment.png" />
-
+                <div class="min-w-[min(30rem,75vw)] lg:min-w-[33rem] flex-1 p-6 bg-orange-800 rounded-3xl overflow-hidden flex flex-row lg:flex-col items-center gap-3">
+        <div class="rounded-3xl min-h-32  lg:min-h-[20rem] lg:w-full lg:flex-1 overflow-hidden">
+            <img class="w-full h-full pointer-events-none object-cover mt-[-15%] lg:mt-0" src="img/ai_skill_assessment.png" />
+        </div>
+    <div class="lg:h-[3em]">
     Kinematic tracking of culinary techniques, knife skills, and timing across complex recipes.
+    </div>
 </div>            </div>
         </div>
     </section>
 
-    <section class="min-h-screen py-9 flex-center flex-col bg-gradient-to-b from-transparent to-[#281C3E] pt-[5rem]"
+    <section class="min-h-screen py-9 flex-center flex-col bg-gradient-to-b from-[#0c0b0d] to-[#281C3E] pt-[5rem]"
         id="research">
         <div class="flex flex-col items-center justify-center px-[5%] gap-4 max-w-full">
 
-            <div class="text-[2em] font-['Zilla_Slab'] font-extrabold">
+            <div class="text-[2.5em] font-['Zilla_Slab'] font-extrabold">
                 Real world applications across the entire gastronomic process
             </div>
 
@@ -277,14 +322,14 @@
                 <div img="img/prep.png" class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex items-center gap-4 overflow-hidden card-black">
             <img class="h-20 w-20 lg:hidden xl:block" src="img/prep.png" />
     
-    <div class="flex flex-col items-start gap-1 min-w-0">
+    <div class="flex flex-col items-start gap-1 ">
         <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
                             <img class="h-20 w-20 max-lg:hidden xl:hidden" src="img/prep.png" />
             
             Prep (Mise en place)
         </div>
 
-        <div class="text-zinc-400 text-xl">
+        <div class="text-zinc-400 text-xl w-full">
             Models like YOLO and Vision Transformers optimize the detection of ingredients.
         </div>
     </div>
@@ -292,14 +337,14 @@
                 <div img="img/cooking.png" class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex items-center gap-4 overflow-hidden card-black">
             <img class="h-20 w-20 lg:hidden xl:block" src="img/cooking.png" />
     
-    <div class="flex flex-col items-start gap-1 min-w-0">
+    <div class="flex flex-col items-start gap-1 ">
         <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
                             <img class="h-20 w-20 max-lg:hidden xl:hidden" src="img/cooking.png" />
             
             Line cooking
         </div>
 
-        <div class="text-zinc-400 text-xl">
+        <div class="text-zinc-400 text-xl w-full">
             Integration of LiDAR and tRGB improve real-time perception in high-stress autonomous kitchens
         </div>
     </div>
@@ -307,14 +352,14 @@
                 <div img="img/plating.png" class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex items-center gap-4 overflow-hidden card-black">
             <img class="h-20 w-20 lg:hidden xl:block" src="img/plating.png" />
     
-    <div class="flex flex-col items-start gap-1 min-w-0">
+    <div class="flex flex-col items-start gap-1 ">
         <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
                             <img class="h-20 w-20 max-lg:hidden xl:hidden" src="img/plating.png" />
             
             Plating &amp; QA
         </div>
 
-        <div class="text-zinc-400 text-xl">
+        <div class="text-zinc-400 text-xl w-full">
             Tools like Grad-CAM validate recipe executions and automated quality assessments.
         </div>
     </div>
@@ -325,14 +370,14 @@
                 <div img="img/privacy.png" class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex items-center gap-4 overflow-hidden card-black">
             <img class="h-20 w-20 lg:hidden xl:block" src="img/privacy.png" />
     
-    <div class="flex flex-col items-start gap-1 min-w-0">
+    <div class="flex flex-col items-start gap-1 ">
         <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
                             <img class="h-20 w-20 max-lg:hidden xl:hidden" src="img/privacy.png" />
             
             Privacy via Federated Learning
         </div>
 
-        <div class="text-zinc-400 text-xl">
+        <div class="text-zinc-400 text-xl w-full">
             Collaborative network training without sharing proprietary restaurant data, techniques, or secret recipes.
         </div>
     </div>
@@ -340,14 +385,14 @@
                 <div img="img/ip.png" class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex items-center gap-4 overflow-hidden card-black">
             <img class="h-20 w-20 lg:hidden xl:block" src="img/ip.png" />
     
-    <div class="flex flex-col items-start gap-1 min-w-0">
+    <div class="flex flex-col items-start gap-1 ">
         <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
                             <img class="h-20 w-20 max-lg:hidden xl:hidden" src="img/ip.png" />
             
             Strict protocols for IP
         </div>
 
-        <div class="text-zinc-400 text-xl">
+        <div class="text-zinc-400 text-xl w-full">
             Networked collaborative models with strict protocols to protect intellectual property in high-end gastronomy.
         </div>
     </div>
@@ -355,14 +400,14 @@
                 <div img="img/model.png" class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex items-center gap-4 overflow-hidden card-black">
             <img class="h-20 w-20 lg:hidden xl:block" src="img/model.png" />
     
-    <div class="flex flex-col items-start gap-1 min-w-0">
+    <div class="flex flex-col items-start gap-1 ">
         <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
                             <img class="h-20 w-20 max-lg:hidden xl:hidden" src="img/model.png" />
             
             Unified Generative Models
         </div>
 
-        <div class="text-zinc-400 text-xl">
+        <div class="text-zinc-400 text-xl w-full">
             Evolution towards multimodal architectures bridging explicit culinary rules with generative AI for operational robustness.
         </div>
     </div>
@@ -412,46 +457,92 @@
                 </div>
             </div>
 
-            <div class="max-w-full overflow-x-scroll flex gap-5 px-[12.5%] center-scroll scrollbar-hidden">
-                <div class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex gap-4 overflow-hidden card-black min-w-[min(40rem,75vw)] items-start">
+
+
+            <div
+                class="max-w-full overflow-x-scroll flex gap-5 px-[12.5%] center-scroll scrollbar-hidden min-h-[16rem] sm:max-h-[calc(100vh-4rem-22rem)]">
+                <div class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex gap-4 overflow-hidden card-black min-w-[min(40rem,75vw)] items-start fit-width">
     
-    <div class="flex flex-col items-start gap-1 min-w-0">
+    <div class="flex flex-col items-start gap-1 flex-1">
         <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
             
             AI-Powered Uniform Compliance System
         </div>
 
-        <div class="text-zinc-400 text-xl">
-            <div class="mb-2 text-base">
-                        Digitizes subjective culinary grading into objective quantitative metrics by mapping student plating against baseline master chef executions.
-                    </div>
-
-                    <div class="flex gap-4 mb-2 text-base">
-                        <div>
-                            How It Works
-                            <ul class="list-disc pl-6">
-                                <li>
-                                    Data: Edge-device video feeds via a QR deployment application.
-                                </li>
-                                <li>
-                                    Model: Object detection architecture following CRISP-DM methodology.
-                                </li>
-                                <li>
-                                    Output: Real-time alerts identifying hat, jacket, apron, and pants.
-                                </li>
-                            </ul>
+        <div class="text-zinc-400 text-xl w-full">
+            <div class="mb-2 text-base flex flex-col">
+                        Automates daily kitchen inspections by visually verifying formal culinary attire, ensuring absolute adherence to hygiene protocols.
+                        <div class="flex gap-4 text-base min-h-0">
+                            <div class="flex flex-col flex-1">
+                                How It Works
+                                <ul class="list-disc pl-6 flex-1 min-h-0">
+                                    <li>
+                                        Data: Edge-device video feeds via a QR deployment application.
+                                    </li>
+                                    <li>
+                                        Model: Object detection architecture following CRISP-DM methodology.
+                                    </li>
+                                    <li>
+                                        Output: Real-time alerts identifying hat, jacket, apron, and pants.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="flex flex-col flex-1">
+                                Value Generated
+                                <ul class="list-disc pl-6">
+                                    <li>
+                                        Drastic reduction of manual oversight and inspection time.
+                                    </li>
+                                    <li>
+                                        Unbiased operational standardization in hygiene safety.
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
+                    </div>
+                    <div class="text-base">
+                        Scientific Evidence: Demonstrates rigorous computational skill transfer evaluation, though sensitive to baseline image quality variations (Castillo-Ortiz et al., 2024b).
+                    </div>
+        </div>
+    </div>
+</div>
+                <div class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex gap-4 overflow-hidden card-black min-w-[min(40rem,75vw)] items-start fit-width">
+    
+    <div class="flex flex-col items-start gap-1 flex-1">
+        <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
+            
+            Culinary Skill Transfer Intelligence Engine
+        </div>
 
-                        <div>
-                            Value Generated
-                            <ul class="list-disc pl-6">
-                                <li>
-                                    Drastic reduction of manual oversight and inspection time.
-                                </li>
-                                <li>
-                                    Unbiased operational standardization in hygiene safety.
-                                </li>
-                            </ul>
+        <div class="text-zinc-400 text-xl w-full">
+            <div class="mb-2 text-base flex flex-col">
+                        Digitizes subjective culinary grading into objective quantitative metrics by mapping student plating against baseline master chef executions.
+                        <div class="flex gap-4 text-base min-h-0">
+                            <div class="flex flex-col flex-1">
+                                How It Works
+                                <ul class="list-disc pl-6 flex-1 min-h-0">
+                                    <li>
+                                        Data: High-resolution standardized plating imagery.
+                                    </li>
+                                    <li>
+                                        Model: VGG-16 Deep Convolutional Neural Networks (CNNs).
+                                    </li>
+                                    <li>
+                                        Output: Euclidean distance, cosine similarity, and perceptual loss scores.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="flex flex-col flex-1">
+                                Value Generated
+                                <ul class="list-disc pl-6">
+                                    <li>
+                                        Objective, quantifiable evaluation of culinary performance.
+                                    </li>
+                                    <li>
+                                        Global scalability for culinary education.
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="text-base">
@@ -460,94 +551,45 @@
         </div>
     </div>
 </div>
-                <div class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex gap-4 overflow-hidden card-black min-w-[min(40rem,75vw)] items-start">
+                <div class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex gap-4 overflow-hidden card-black min-w-[min(40rem,75vw)] items-start fit-width">
     
-    <div class="flex flex-col items-start gap-1 min-w-0">
-        <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
-            
-            Culinary Skill Transfer Intelligence Engine
-        </div>
-
-        <div class="text-zinc-400 text-xl">
-            <div class="mb-2 text-base">
-                        Digitizes subjective culinary grading into objective quantitative metrics by mapping student plating against baseline master chef executions.
-                    </div>
-
-                    <div class="flex gap-4 mb-2 text-base">
-                        <div>
-                            How It Works
-                            <ul class="list-disc pl-6">
-                                <li>
-                                    Data: High-resolution standardized plating imagery.
-                                </li>
-                                <li>
-                                    Model: VGG-16 Deep Convolutional Neural Networks (CNNs).
-                                </li>
-                                <li>
-                                    Output: Euclidean distance, cosine similarity, and perceptual loss scores.
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div>
-                            Value Generated
-                            <ul class="list-disc pl-6">
-                                <li>
-                                    Objective, quantifiable evaluation of culinary performance.
-                                </li>
-                                <li>
-                                    Global scalability for culinary education.
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="text-base">
-                        Scientific Evidence: Validated in field tests achieving ~85–86% precision across diverse culinary uniform items (Castillo-Ortiz et al., 2024a).
-                    </div>
-        </div>
-    </div>
-</div>                <div class="flex-1 p-6 bg-zinc-950 rounded-2xl border border-zinc-900 flex gap-4 overflow-hidden card-black min-w-[min(40rem,75vw)] items-start">
-    
-    <div class="flex flex-col items-start gap-1 min-w-0">
+    <div class="flex flex-col items-start gap-1 flex-1">
         <div class="text-white text-2xl font-extrabold font-['Zilla_Slab'] inline-flex items-center gap-3">
             
             Smart Kitchen Vision Systems
         </div>
 
-        <div class="text-zinc-400 text-xl">
-            <div class="mb-2 text-base">
+        <div class="text-zinc-400 text-xl w-full">
+            <div class="mb-2 text-base flex flex-col">
                         An integrated spatial computing network that monitors, anticipates, and orchestrates the professional kitchen floor.
-                    </div>
-
-                    <div class="flex gap-4 mb-2 text-base">
-                        <div>
-                            How It Works
-                            <ul class="list-disc pl-6">
-                                <li>
-                                    Data: Multimodal inputs from IoT edge nodes and optical sensors.
-                                </li>
-                                <li>
-                                    Model: Fused object detection and semantic segmentation pipelines.
-                                </li>
-                                <li>
-                                    Output: Centralized dashboard for kitchen automation &amp; safety.
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div>
-                            Value Generated
-                            <ul class="list-disc pl-6">
-                                <li>
-                                    Frictionless automation of standard back-of-house processes.
-                                </li>
-                                <li>
-                                    Industrial scalability from educational labs to enterprise hospitality.
-                                </li>
-                            </ul>
+                        <div class="flex gap-4 text-base min-h-0">
+                            <div class="flex flex-col flex-1">
+                                How It Works
+                                <ul class="list-disc pl-6 flex-1 min-h-0">
+                                    <li>
+                                        Data: Multimodal inputs from IoT edge nodes and optical sensors.
+                                    </li>
+                                    <li>
+                                        Model: Fused object detection and semantic segmentation pipelines.
+                                    </li>
+                                    <li>
+                                        Output: Centralized dashboard for kitchen automation &amp; safety.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="flex flex-col flex-1">
+                                Value Generated
+                                <ul class="list-disc pl-6">
+                                    <li>
+                                        Frictionless automation of standard back-of-house processes.
+                                    </li>
+                                    <li>
+                                        Industrial scalability from educational labs to enterprise hospitality.
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-
                     <div class="text-base">
                         Scientific Evidence: Integrates the foundations of uniform compliance (Castillo-Ortiz et al., 2024a) and culinary products quality evaluation (Castillo-Ortiz et al., 2024b) into a unified ambient operating system.
                     </div>
@@ -560,33 +602,36 @@
 
         </div>
     </section>
+    <div id="opportunities" class="mb-[4rem] mt-[-4rem]"></div>
+    <section class="min-h-[calc(100vh-4rem)] relative bg-orange-900 opportunities">
 
-    <section id="opportunities"
-        class="min-h-screen py-9 px-[max(2rem,5%)] bg-zinc-900 flex-center flex-col text-center bg-gradient-to-b from-[#ff590044] to-[#ff590088] pt-[5rem]">
+        <div
+            class="py-9 px-[max(2rem,5%)] flex-center flex-col text-center min-h-[calc(100vh-4rem)] w-full relative inset-0 z-10">
 
-        <div class="text-5xl font-['Zilla_Slab'] font-extrabold mb-4 ">
-            Join the frontier
-        </div>
+            <div class="text-5xl font-['Zilla_Slab'] font-extrabold mb-4 ">
+                Join the frontier
+            </div>
 
-        <div class="text-3xl mb-4 font-light">
-            We are actively seeking brilliant minds to help build the future of gastronomy.
-        </div>
+            <div class="text-3xl mb-4 font-light">
+                We are actively seeking brilliant minds to help build the future of gastronomy.
+            </div>
 
-        <div class="flex gap-4 flex-col md:flex-row">
+            <div class="flex gap-4 flex-col md:flex-row">
 
-            <div class="flex-1 rounded-3xl border-2 border-[currentcolor] p-5 hover:text-orange-500 hover:bg-zinc-800 transition flex flex-col gap-5 text-left group">
+                <div class="flex-1 rounded-3xl border-2 border-[currentcolor] p-5 hover:text-orange-500 hover:bg-[#000000bb] transition flex flex-col gap-5 text-left group">
     <div>
         <div class="text-3xl font-extrabold">
             Students
         </div>
 
-        Undergraduate and postgraduate positions for those passionate about integrating ML with culinary arts.
+        Research projects for undergraduate and postgraduate students passionate about integrating artificial intelligence with culinary arts.
 
-                <ul class="mt-4 list-disc pl-5">
-                    <li>NVIDIA certifications &amp; training</li>
-                    <li>Real-world AI deployment pipeline</li>
-                    <li>Thesis supervision</li>
-                </ul>
+                    <ul class="mt-4 list-disc pl-5">
+                        <li>NVIDIA certifications &amp; training</li>
+                        <li>Development of industry-focused solutions powered by artificial intelligence
+                        </li>
+                        <li>Undergraduate and postgraduate thesis supervision</li>
+                    </ul>
     </div>
 
     <button
@@ -595,7 +640,7 @@
     >
         Apply as student
     </button>
-</div>            <div class="flex-1 rounded-3xl border-2 border-[currentcolor] p-5 hover:text-orange-500 hover:bg-zinc-800 transition flex flex-col gap-5 text-left group">
+</div>                <div class="flex-1 rounded-3xl border-2 border-[currentcolor] p-5 hover:text-orange-500 hover:bg-[#000000bb] transition flex flex-col gap-5 text-left group">
     <div>
         <div class="text-3xl font-extrabold">
             Researchers
@@ -603,33 +648,33 @@
 
         Post-docs and PhD candidates driving novel computer vision architectures in unconstrained environments.
 
-                <ul class="mt-4 list-disc pl-5">
-                    <li>Compute cluster access (A100s)</li>
-                    <li>Conference publications (CVPR, CHI)</li>
-                    <li>Prototyping budget</li>
-                </ul>
+                    <ul class="mt-4 list-disc pl-5">
+                        <li>Compute cluster access (A100s)</li>
+                        <li>Conference publications (CVPR, CHI)</li>
+                        <li>Prototyping budget</li>
+                    </ul>
     </div>
 
     <button
         onclick="openModal('modal-apply-researcher')"
         class="self-center mt-auto rounded-full bg-white px-4 py-3 text-xl text-zinc-900 transition hover:text-white group-hover:bg-orange-500"
     >
-        View open positions
+        Explore possibilities
     </button>
 </div>
-            <div class="flex-1 rounded-3xl border-2 border-[currentcolor] p-5 hover:text-orange-500 hover:bg-zinc-800 transition flex flex-col gap-5 text-left group">
+                <div class="flex-1 rounded-3xl border-2 border-[currentcolor] p-5 hover:text-orange-500 hover:bg-[#000000bb] transition flex flex-col gap-5 text-left group">
     <div>
         <div class="text-3xl font-extrabold">
             Industry Partners
         </div>
 
-        Culinary institutions, ghost kitchens, and tech giants looking to deploy our systems or collaborate.
+        Culinary institutions, food and beverage service centers, restaurants, fast-food chains, and technology companies interested in deploying our systems or collaborating.
 
-                <ul class="mt-4 list-disc pl-5">
-                    <li>Pilot program integration</li>
-                    <li>Custom model tuning</li>
-                    <li>Licensing opportunities</li>
-                </ul>
+                    <ul class="mt-4 list-disc pl-5">
+                        <li>Pilot program integration</li>
+                        <li>Custom model tuning</li>
+                        <li>Licensing opportunities</li>
+                    </ul>
     </div>
 
     <button
@@ -639,7 +684,9 @@
         Partner with us
     </button>
 </div>
+            </div>
         </div>
+
 
     </section>
 
@@ -698,19 +745,23 @@
 
         <div class="flex-1 overflow-auto px-3" style="scrollbar-gutter: stable;">
             <div class="flex flex-col gap-2">
-            <a href="#about" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700" onclick="closeDrawer()">
+            <a href="#about" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700"
+                onclick="closeDrawer()">
                 What we do
             </a>
 
-            <a href="#research" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700" onclick="closeDrawer()">
+            <a href="#research" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700"
+                onclick="closeDrawer()">
                 Research areas
             </a>
 
-            <a href="#projects" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700" onclick="closeDrawer()">
+            <a href="#projects" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700"
+                onclick="closeDrawer()">
                 Projects
             </a>
 
-            <a href="#opportunities" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700" onclick="closeDrawer()">
+            <a href="#opportunities" class="block rounded-xl px-4 py-2 text-sm transition hover:bg-zinc-700"
+                onclick="closeDrawer()">
                 Opportunities
             </a>
 
@@ -719,7 +770,7 @@
     x-data="{}"
     class="relative inline-block"
     data-dropdown
-    id="dropdown-6a0df48947d40"
+    id="dropdown-6a45a0ca2175f"
 >
     
     <div data-dropdown-trigger>
@@ -746,8 +797,7 @@
                         🇲🇽 Español
                     </a>
     </div>
-</div> 
-            </div>
+</div>            </div>
         </div>
         </div>
 
@@ -1722,12 +1772,6 @@
                 });
             });
         }
-
-
-
-
-
-
     </script>
 
     <script>
@@ -1759,6 +1803,73 @@
             });
         });
     </script>
+
+    <script>
+        function fitWidthToHeight(selector) {
+            function apply(el) {
+                el.style.minWidth = '';
+                if (window.innerWidth < 640) return;
+                let safety = 0;
+                let limit = 1000;
+
+                let applies = hasOverflowingChild(el) || (el.scrollHeight > el.clientHeight);
+                if (!hasOverflowingChild(el)) {
+                    function condition(el) { return (el.scrollHeight > el.clientHeight) }
+                }
+                else {
+                    function condition(el) { return hasOverflowingChild(el) }
+                }
+                //el.style.background = '';
+                while (
+                    condition(el)
+                    //(el.scrollHeight > el.offsetHeight)
+                    && safety < limit) {
+                    el.style.minWidth = `${(parseFloat(el.style.minWidth) || el.scrollWidth) + 16}px`;
+                    safety++;
+                    //el.style.background = '#00ffff44';
+                }
+                if (safety >= limit) {
+                    //el.style.background = '#ff00ff44';
+                    el.style.minWidth = `min(100vw, ${el.style.minWidth || '0px'})`;
+                }
+                /*
+                if (hasOverflowingChild(el)) {
+                    el.style.background = '#ffff0044';
+                }*/
+
+                //el.querySelectorAll('*').forEach(apply);
+                centerScroll();
+            }
+            document.querySelectorAll(selector).forEach(el => { apply(el); });
+        }
+        function hasOverflowingChild(el) {
+            return [...el.children].some(child => {
+                const r1 = child.getBoundingClientRect();
+                const r2 = el.getBoundingClientRect();
+
+                return (
+                    r1.right > r2.right ||
+                    r1.bottom > r2.bottom ||
+                    r1.left < r2.left ||
+                    r1.top < r2.top
+                );
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fitWidthToHeight('.fit-width');
+            window.addEventListener('resize', () => {
+                fitWidthToHeight('.fit-width');
+            });
+            setTimeout(() => {
+                fitWidthToHeight('.fit-width');
+            }, 1);
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/perlin.js"></script>
+
 </body>
 
 </html>
